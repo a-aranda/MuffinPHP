@@ -22,6 +22,8 @@ class CCDeveloper implements IController {
   //
   $muff = CMuffinPHP::Instance();
   $dirfunc = dirname(__FILE__);
+  $muff->data['header'] = '<h1>Header: Lydia</h1>';
+  $muff->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
   $muff->data['main'] = <<<EOD
   <h2>Some private Testing</h2>
   <p>The directory of this file is this one: $dirfunc</p>
@@ -80,6 +82,8 @@ EOD;
     }
     
     $muff->data['title'] = "The Developer Controller";
+    $muff->data['header'] = '<h1>Header: Lydia</h1>';
+    $muff->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
     $muff->data['main'] = <<<EOD
 <h1>The Developer Controller</h1>
 <p>This is what you can do for now :)</p>

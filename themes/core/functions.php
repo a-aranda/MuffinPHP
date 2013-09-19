@@ -1,9 +1,5 @@
     <?php
-    //information that should be DELETED ASAP
-    $muff->data['header'] = '<h1>Header: Lydia</h1>';
-    $muff->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
-    $muff->data['title'] = "This is the title";
-    //$muff->data['main'] = "This is the main part";
+    
 
     /**
     * Print debuginformation from the framework.
