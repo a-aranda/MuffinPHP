@@ -41,12 +41,19 @@ $muff->config['language'] = 'en';
 * Turn On/Off the debugg
  */
 
-$muff->config['debug'] = 'on';
+$muff->config['enabled'] = 'on';
 
 /**
 * Set database(s).
 */
 $muff->config['database'][0]['dsn'] = 'sqlite:' . MUFFINPHP_SITE_PATH . '/data/.ht.sqlite';
+
+/**
+* Set what to show as debug or developer information in the get_debug() theme helper.
+*/
+$muff->config['debug']['muffin'] = false;
+$muff->config['debug']['db-num-queries'] = true;
+$muff->config['debug']['db-queries'] = true;
 
 /** 
 * Define the controllers, their classname and enable/disable them. 

@@ -2,13 +2,18 @@
 /**
 * Holding a instance of CMuffinPHP to enable use of $this in subclasses.
 *
-* @package MuffinPHP Core
+* @package MuffinPhp Core
 */
 class CObject {
 
+   /**
+    * Members
+    */
    public $config;
    public $request;
    public $data;
+   public $db;
+   
 
    /**
     * Constructor
@@ -18,6 +23,7 @@ class CObject {
     $this->config   = &$muff->config;
     $this->request  = &$muff->request;
     $this->data     = &$muff->data;
+    $this->db       = &$muff->db;
   }
 
 }
