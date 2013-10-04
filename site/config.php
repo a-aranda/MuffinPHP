@@ -43,6 +43,11 @@ $muff->config['language'] = 'en';
 
 $muff->config['debug'] = 'on';
 
+/**
+* Set database(s).
+*/
+$muff->config['database'][0]['dsn'] = 'sqlite:' . MUFFINPHP_SITE_PATH . '/data/.ht.sqlite';
+
 /** 
 * Define the controllers, their classname and enable/disable them. 
 * 
