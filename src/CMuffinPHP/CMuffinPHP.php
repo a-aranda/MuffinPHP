@@ -26,6 +26,12 @@ class CMuffinPHP implements ISingleton {
      // include the site specific config.php and create a ref to $muff to be used by config.php
      $muff = &$this;
      require(MUFFINPHP_SITE_PATH.'/config.php');
+     // Start a named session
+    session_name($this->config['session_name']);
+    session_start();
+
+    // Set default date/time-zone
+    date_default_timezone_set($this->config['timezone']);
   }
 
   /**
