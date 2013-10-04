@@ -37,6 +37,12 @@ $muff->config['character_encoding'] = 'UTF-8';
 */
 $muff->config['language'] = 'en';
 
+/*
+* Turn On/Off the debugg
+ */
+
+$muff->config['debug'] = 'on';
+
 /** 
 * Define the controllers, their classname and enable/disable them. 
 * 

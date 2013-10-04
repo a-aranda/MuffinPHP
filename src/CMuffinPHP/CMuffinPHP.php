@@ -38,6 +38,7 @@ class CMuffinPHP implements ISingleton {
     $this->request->Init($this->config['base_url']); 
     $controller = $this->request->controller; 
     $method = $this->request->method; 
+    $method = str_replace(array('_', '-'), '', $method); //accepts - and _ in links
     $arguments = $this->request->arguments;
     
   

@@ -4,7 +4,14 @@
  * 
  * @package MuffinPHP Core
  */
-class CCDeveloper implements IController {
+class CCDeveloper extends CObject implements IController {
+
+  /**
+   * Constructor
+   */
+  public function __construct() {
+    parent::__construct();
+  }
 
   /**
     * Implementing interface IController. All controllers must have an index action.
@@ -20,11 +27,10 @@ class CCDeveloper implements IController {
 
   //testing functions
   //
-  $muff = CMuffinPHP::Instance();
   $dirfunc = dirname(__FILE__);
-  $muff->data['header'] = '<h1>Header: Lydia</h1>';
-  $muff->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
-  $muff->data['main'] = <<<EOD
+  $this->data['header'] = '<h1>Header: Lydia</h1>';
+  $this->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
+  $this->data['main'] = <<<EOD
   <h2>Some private Testing</h2>
   <p>The directory of this file is this one: $dirfunc</p>
 EOD;
@@ -38,23 +44,21 @@ EOD;
   public function Links() {  
     $this->Menu();
     
-    $muff = CMuffinPHP::Instance();
-    
     $url = 'developer/links';
-    $current      = $muff->request->CreateUrl($url);
+    $current      = $this->request->CreateUrl($url);
 
-    $muff->request->cleanUrl = false;
-    $muff->request->querystringUrl = false;    
-    $default      = $muff->request->CreateUrl($url);
+    $this->request->cleanUrl = false;
+    $this->request->querystringUrl = false;    
+    $default      = $this->request->CreateUrl($url);
     
-    $muff->request->cleanUrl = true;
-    $clean        = $muff->request->CreateUrl($url);    
+    $this->request->cleanUrl = true;
+    $clean        = $this->request->CreateUrl($url);    
     
-    $muff->request->cleanUrl = false;
-    $muff->request->querystringUrl = true;    
-    $querystring  = $muff->request->CreateUrl($url);
+    $this->request->cleanUrl = false;
+    $this->request->querystringUrl = true;    
+    $querystring  = $this->request->CreateUrl($url);
     
-    $muff->data['main'] .= <<<EOD
+    $this->data['main'] .= <<<EOD
 <h2>CRequest::CreateUrl()</h2>
 <p>Here is a list of urls created using above method with various settings. All links should lead to
 this same page.</p>
@@ -68,29 +72,41 @@ this same page.</p>
 EOD;
   }
 
-
   /**
     * Create a method that shows the menu, same for all methods
    */
-  private function Menu() {  
-    $muff = CMuffinPHP::Instance();
-    $menu = array('developer', 'developer/index', 'developer/links');
+private function Menu() {  
+    
+    $menu = array('developer', 'developer/index', 'developer/links','developer/displayobject','developer/display_object','developer/display-object');
     
     $html = null;
     foreach($menu as $val) {
-      $html .= "<li><a href='" . $muff->request->CreateUrl($val) . "'>$val</a>";  
+      $html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";  
     }
     
-    $muff->data['title'] = "The Developer Controller";
-    $muff->data['header'] = '<h1>Header: Lydia</h1>';
-    $muff->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
-    $muff->data['main'] = <<<EOD
+    $this->data['title'] = "The Developerr Controller";
+    $this->data['header'] = '<h1>Header: Lydia</h1>';
+    $this->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
+    $this->data['main'] = <<<EOD
 <h1>The Developer Controller</h1>
-<p>This is what you can do for now :)</p>
+<p>This is what you can do for now in kmom03</p>
 <ul>
 $html
 </ul>
 EOD;
   }
+
+  /**
+    * Display all items of the CObject.
+  */
+public function DisplayObject() {   
+      $this->Menu();
+      
+      $this->data['main'] .= <<<EOD
+<h2>Dumping content of CDeveloper</h2>
+<p>Here is the content of the controller, including properties from CObject which holds access to common resources in CMuffinPHP.</p>
+EOD;
+      $this->data['main'] .= '<pre>' . htmlent(print_r($this, true)) . '</pre>';
+   }
   
 }
