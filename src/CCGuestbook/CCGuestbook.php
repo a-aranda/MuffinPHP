@@ -6,61 +6,49 @@
 */
 class CCGuestbook extends CObject implements IController, IHasSQL {
 
-  private $pageTitle = 'MuffinPHP Guestbook Example';
-  private $pageHeader = '<h1>Guestbook Example</h1><p>Showing off how to implement a guestbook in MuffinPHP.</p>';
-  private $pageMessages = '<h2>Current messages</h2>';
-  private $pageForm = "
-    <form>
-      <p>
-        <label>Comment: <br/>
-        <textarea name='newEntry'></textarea></label>
-      </p>
-      <p>
-        <input type='submit' name='doIt' value='Add comment' />
-      </p>
-    </form>
-  ";
- 
+  private $pageTitle = 'Lydia Guestbook Example';
 
-	/**
+  /**
 	* Constructor
 	*/
 	public function __construct() {
 		parent::__construct();
 	}
- 
+
 
 	/**
-	* Implementing interface IController. All controllers must have an index action.
+	* Implementing interface IHasSQL. Encapsulate all SQL used by this class.
+	*
+	* @param string $key the string that is the key of the wanted SQL-entry in the array.
 	*/
-	public function Index() {   
-		$formAction = $this->request->CreateUrl('guestbook/handler');
-		$this->pageForm = "
-		  <form action='{$formAction}' method='post'>
-		    <p>
-		      <label>Message: <br/>
-		      <textarea name='newEntry'></textarea></label>
-		    </p>
-		    <p>
-		      <input type='submit' name='doCreate' value='Init database'/>
-		      <input type='submit' name='doAdd' value='Add message'/>
-		      <input type='submit' name='doClear' value='Clear all messages'/>
-		    </p>
-		  </form>
-		";
-		$this->data['title'] = $this->pageTitle;
-		$this->data['header'] = $this->pageHeader;
-		$this->data['main']  = $this->pageForm . $this->pageMessages;
-			$this->data['footer'] = "";
-
-		$values = $this->ReadAllFromDatabase();
-		foreach ($values as $val) {
-			$this->data['main'] .= "<div style='background-color:#f6f6f6;border:1px solid #ccc;margin-bottom:1em;padding:1em;'><p>At: {$val['created']}</p><p>{$val['entry']}</p></div>\n";
+	public static function SQL($key=null) {
+		$queries = array(
+		    'create table guestbook'  => "CREATE TABLE IF NOT EXISTS Guestbook (id INTEGER PRIMARY KEY, entry TEXT, created DATETIME default (datetime('now')));",
+		    'insert into guestbook'   => 'INSERT INTO Guestbook (entry) VALUES (?);',
+		    'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
+		    'delete from guestbook'   => 'DELETE FROM Guestbook;',
+		 );
+		if(!isset($queries[$key])) {
+		    throw new Exception("No such SQL query, key '$key' was not found.");
 		}
-
+		return $queries[$key];
 	}
 
+  /**
+   * Implementing interface IController. All controllers must have an index action.
+   */
+  public function Index() {
+    $this->views->SetTitle($this->pageTitle);
+    $this->views->SetVariable('header',"<h1>Guestbook Example</h1>");
+    $this->views->SetVariable('footer','<p>Alvaro Aranda on MuffinPHP</p>');
+    $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+      'entries'=>$this->ReadAllFromDatabase(),
+      'formAction'=>$this->request->CreateUrl('guestbook/handler')
+    ));
+  }
 
+	
+ 
 	/**
 	* Save a new entry to database.
 	*/
@@ -117,22 +105,6 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
 		}
 	}
 
-	/**
-	* Implementing interface IHasSQL. Encapsulate all SQL used by this class.
-	*
-	* @param string $key the string that is the key of the wanted SQL-entry in the array.
-	*/
-	public static function SQL($key=null) {
-		$queries = array(
-		    'create table guestbook'  => "CREATE TABLE IF NOT EXISTS Guestbook (id INTEGER PRIMARY KEY, entry TEXT, created DATETIME default (datetime('now')));",
-		    'insert into guestbook'   => 'INSERT INTO Guestbook (entry) VALUES (?);',
-		    'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
-		    'delete from guestbook'   => 'DELETE FROM Guestbook;',
-		 );
-		if(!isset($queries[$key])) {
-		    throw new Exception("No such SQL query, key '$key' was not found.");
-		}
-		return $queries[$key];
-	}
+	
 
 } 

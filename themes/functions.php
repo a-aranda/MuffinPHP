@@ -17,3 +17,18 @@ function base_url($url) {
 function current_url() {
   return CMuffinPHP::Instance()->request->current_url;
 }
+
+/**
+ * Render all views.
+ */
+function render_views() {
+  return CMuffinPHP::Instance()->views->Render();
+}
+
+/**
+ * Prepend the theme_url, which is the url to the current theme directory.
+ */
+function theme_url($url) {
+  $ly = CLydia::Instance();
+  return "{$ly->request->base_url}themes/{$ly->config['theme']['name']}/{$url}";
+}

@@ -23,14 +23,17 @@ class CMuffinPHP implements ISingleton {
   * Constructor
   */
   protected function __construct() {
-     // include the site specific config.php and create a ref to $muff to be used by config.php
-     $muff = &$this;
-     require(MUFFINPHP_SITE_PATH.'/config.php');
+    // include the site specific config.php and create a ref to $muff to be used by config.php
+    $muff = &$this;
+    require(MUFFINPHP_SITE_PATH.'/config.php');
      
     // Create a database object.
-      if(isset($this->config['database'][0]['dsn'])) {
+    if(isset($this->config['database'][0]['dsn'])) {
         $this->db = new CDatabase($this->config['database'][0]['dsn']);
-     }
+    }
+
+    // Create a container for all views and theme data
+    $this->views = new CViewContainer();
 
     // Set default date/time-zone
     date_default_timezone_set($this->config['timezone']);
@@ -84,32 +87,32 @@ class CMuffinPHP implements ISingleton {
 
 }
   /**
-  * ThemeEngineRender, renders the reply of the request.
-  */
+    * ThemeEngineRender, renders the reply of the request to HTML or whatever.
+    */
   public function ThemeEngineRender() {
+    // Is theme enabled?
+    if(!isset($this->config['theme'])) {
+      return;
+    }
+    
     // Get the paths and settings for the theme
-    $themeName    = $this->config['theme']['name'];
-    $themePath    = MUFFINPHP_INSTALL_PATH . "/themes/{$themeName}";
-    $themeUrl      = $this->request->base_url."themes/{$themeName}";
-   
+    $themeName  = $this->config['theme']['name'];
+    $themePath  = MUFFINPHP_INSTALL_PATH . "/themes/{$themeName}";
+    $themeUrl   = $this->request->base_url . "themes/{$themeName}";
+    
     // Add stylesheet path to the $muff->data array
     $this->data['stylesheet'] = "{$themeUrl}/style.css";
 
     // Include the global functions.php and the functions.php that are part of the theme
     $muff = &$this;
-
-    $engineFunctions = MUFFINPHP_INSTALL_PATH . "/themes/functions.php";
-    if(is_file($engineFunctions)) {
-      include $engineFunctions;
-    }
-
+    include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
     $functionsPath = "{$themePath}/functions.php";
     if(is_file($functionsPath)) {
       include $functionsPath;
     }
-
-    // Extract $muff->data to own variables and handover to the template file
+    // Extract $muff->data and $muff->view->data to own variables and handover to the template file
     extract($this->data);     
+    extract($this->views->GetData());     
     include("{$themePath}/default.tpl.php");
   }
 
