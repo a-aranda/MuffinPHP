@@ -30,4 +30,22 @@ class CObject {
     $this->session  = &$muff->session;
   }
 
+  /**
+   * Redirect to another url and store the session
+   */
+  protected function RedirectTo($url) {
+    $muff = CMuffinPHP::Instance();
+    if(isset($muff->config['debug']['db-num-queries']) && $muff->config['debug']['db-num-queries'] && isset($muff->db)) {
+      $this->session->SetFlash('database_numQueries', $this->db->GetNumQueries());
+    }    
+    if(isset($muff->config['debug']['db-queries']) && $muff->config['debug']['db-queries'] && isset($muff->db)) {
+      $this->session->SetFlash('database_queries', $this->db->GetQueries());
+    }    
+    if(isset($muff->config['debug']['timer']) && $muff->config['debug']['timer']) {
+      $this->session->SetFlash('timer', $muff->timer);
+    }    
+    $this->session->StoreInSession();
+    header('Location: ' . $this->request->CreateUrl($url));
+  }
+
 }
