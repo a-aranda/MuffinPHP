@@ -21,6 +21,7 @@ if (ini_get('short_open_tag')){
 * Define session name
 */
 $muff->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$muff->config['session_key'] = 'muffin';
 
 /*
 * Define server timezone

@@ -6,7 +6,7 @@
 */
 class CCGuestbook extends CObject implements IController, IHasSQL {
 
-  private $pageTitle = 'Lydia Guestbook Example';
+  private $pageTitle = 'MuffinPHP Guestbook Example';
 
   /**
 	* Constructor
@@ -40,7 +40,6 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   public function Index() {
     $this->views->SetTitle($this->pageTitle);
     $this->views->SetVariable('header',"<h1>Guestbook Example</h1>");
-    $this->views->SetVariable('footer','<p>Alvaro Aranda on MuffinPHP</p>');
     $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
       'entries'=>$this->ReadAllFromDatabase(),
       'formAction'=>$this->request->CreateUrl('guestbook/handler')
@@ -91,6 +90,7 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
 	*/
 	private function DeleteAllFromDatabase() {
 		$this->db->ExecuteQuery(self::SQL('delete from guestbook'));
+		$this->session->AddMessage('info', 'Removed all messages from the database table.');
 	}
 
 	/**
@@ -105,6 +105,4 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
 		}
 	}
 
-	
-
-} 
+}

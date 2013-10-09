@@ -11,7 +11,7 @@
 function autoload($aClassName) {
    $classFile = "/src/{$aClassName}/{$aClassName}.php";
    $file1 = MUFFINPHP_SITE_PATH . $classFile;
-   $file2 =  MUFFINPHP_INSTALL_PATH. $classFile;
+   $file2 =  MUFFINPHP_INSTALL_PATH . $classFile;
    if(is_file($file1)) {
       require_once($file1);
    } elseif(is_file($file2)) {
@@ -31,6 +31,6 @@ function htmlent($str, $flags = ENT_COMPAT) {
 * Set a default exception handler and enable logging in it.
 */
 function exception_handler($exception) {
-  echo "Lydia: Uncaught exception: <p>" . $exception->getMessage() . "</p><pre>" . $exception->getTraceAsString(), "</pre>";
+  echo "MUFFINPHP EXCEPTION: Uncaught exception: <p>" . $exception->getMessage() . "</p><pre>" . $exception->getTraceAsString(), "</pre>";
 }
 set_exception_handler('exception_handler');

@@ -37,6 +37,13 @@ class CMuffinPHP implements ISingleton {
 
     // Set default date/time-zone
     date_default_timezone_set($this->config['timezone']);
+
+    // Start a named session
+    session_name($this->config['session_name']);
+    session_start();
+    $this->session = new CSession($this->config['session_key']);
+    $this->session->PopulateFromSession();
+   
   }
 
   /**
@@ -52,8 +59,6 @@ class CMuffinPHP implements ISingleton {
     $method = str_replace(array('_', '-'), '', $method); //accepts - and _ in links
     $arguments = $this->request->arguments;
     
-  
-
     //check that the controller exists in the php config
     $controllerExists = isset($this->config['controllers'][$controller]);
     $controllerEnabled = false; $className = false; $classExists = false; //Initializing to false
@@ -90,6 +95,9 @@ class CMuffinPHP implements ISingleton {
     * ThemeEngineRender, renders the reply of the request to HTML or whatever.
     */
   public function ThemeEngineRender() {
+    // Save to session before output anything
+    $this->session->StoreInSession();
+
     // Is theme enabled?
     if(!isset($this->config['theme'])) {
       return;

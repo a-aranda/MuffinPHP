@@ -1,34 +1,37 @@
-    <?php
-    
+<?php
 
-    // /**
-    // * Print debuginformation from the framework.
-    // */
-    // function get_debug() {
-    //   $muff = CMuffinPHP::Instance();
-    //   if ($muff->config['debug'] == 'on'){
-    //     $html = "<h2>Debug Information</h2><hr><p>The content of the config array:</p><pre>" . htmlent(print_r($muff->config, true)) . "</pre>";
-    //     $html .= "<hr><p>The content of the data array:</p><pre>" . htmlent(print_r($muff->data, true)) . "</pre>";
-    //     $html .= "<hr><p>The content of the request array:</p><pre>" . htmlent(print_r($muff->request, true)) . "</pre>";
-    //     return $html;
-    //   }
-    //   else return null;
-    // }
-
-    /**
-* Print debuginformation from the framework.
-*/
-function get_debug() {
-  $muff = CMuffinPHP::Instance(); 
-  $html = null;
-  if(isset($muff->config['debug']['db-num-queries']) && $muff->config['debug']['db-num-queries'] && isset($muff->db)) {
-    $html .= "<p>Database made " . $muff->db->GetNumQueries() . " queries.</p>";
-  }   
-  if(isset($muff->config['debug']['db-queries']) && $muff->config['debug']['db-queries'] && isset($muff->db)) {
-    $html .= "<p>Database made the following queries.</p><pre>" . implode('<br/><br/>', $muff->db->GetQueries()) . "</pre>";
-  }   
-  if(isset($muff->config['debug']['lydia']) && $muff->config['debug']['lydia']) {
-    $html .= "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($muff, true)) . "</pre>";
-  }   
-  return $html;
-}
+/**
+ * Add static entries for use in the template file. 
+ */
+$muff->data['header'] = '<h1>Muffin PHP</h1>';
+$muff->data['slogan'] = 'A PHP-based MVC-inspired CMF';
+// $muff->data['favicon']      = theme_url('logo_80x80.png');
+// $muff->data['logo']         = theme_url('logo_80x80.png');
+$muff->data['logo_width']   = 80;
+$muff->data['logo_height']  = 80;
+$muff->data['footer'] = <<<EOD
+<p>MuffinPHP &copy; by Alvaro Aranda</p>
+<p>Tools: 
+<a href="http://validator.w3.org/check/referer">html5</a>
+<a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">css3</a>
+<a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css21">css21</a>
+<a href="http://validator.w3.org/unicorn/check?ucn_uri=referer&amp;ucn_task=conformance">unicorn</a>
+<a href="http://validator.w3.org/checklink?uri={$muff->request->current_url}">links</a>
+<a href="http://qa-dev.w3.org/i18n-checker/index?async=false&amp;docAddr={$muff->request->current_url}">i18n</a>
+<!-- <a href="link?">http-header</a> -->
+<a href="http://csslint.net/">css-lint</a>
+<a href="http://jslint.com/">js-lint</a>
+<a href="http://jsperf.com/">js-perf</a>
+<a href="http://www.workwithcolor.com/hsl-color-schemer-01.htm">colors</a>
+<a href="http://dbwebb.se/style">style</a>
+</p>
+<p>Docs:
+<a href="http://www.w3.org/2009/cheatsheet">cheatsheet</a>
+<a href="http://dev.w3.org/html5/spec/spec.html">html5</a>
+<a href="http://www.w3.org/TR/CSS2">css2</a>
+<a href="http://www.w3.org/Style/CSS/current-work#CSS3">css3</a>
+<a href="http://php.net/manual/en/index.php">php</a>
+<a href="http://www.sqlite.org/lang.html">sqlite</a>
+<a href="http://www.blueprintcss.org/">blueprint</a>
+</p>
+EOD;

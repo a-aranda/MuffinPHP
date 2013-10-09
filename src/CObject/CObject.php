@@ -2,7 +2,7 @@
 /**
 * Holding a instance of CMuffinPHP to enable use of $this in subclasses.
 *
-* @package MuffinPhp Core
+* @package MuffinPHP Core
 */
 class CObject {
 
@@ -14,6 +14,7 @@ class CObject {
    public $data;
    public $db;
    public $views;
+   public $session;
    
 
    /**
@@ -26,6 +27,7 @@ class CObject {
     $this->data     = &$muff->data;
     $this->db       = &$muff->db;
     $this->views    = &$muff->views;
+    $this->session  = &$muff->session;
   }
 
 }
