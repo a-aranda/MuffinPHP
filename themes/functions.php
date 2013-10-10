@@ -72,6 +72,17 @@ function theme_url($url) {
 }
 
 /**
+ * Create a url to an internal resource.
+ *
+ * @param string the whole url or the controller. Leave empty for current controller.
+ * @param string the method when specifying controller as first argument, else leave empty.
+ * @param string the extra arguments to the method, leave empty if not using method.
+ */
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return CMuffinPHP::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+}
+
+/**
  * Get messages stored in flash-session.
  */
 function get_messages_from_session() {

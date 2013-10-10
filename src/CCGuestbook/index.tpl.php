@@ -6,6 +6,7 @@
     <textarea name='newEntry'></textarea></label>
   </p>
   <p>
+    <input class="anti-spam" type="text" name="email" value="email">
     <input type='submit' name='doAdd' value='Add message' />
     <input type='submit' name='doClear' value='Clear all messages' />
     <input type='submit' name='doCreate' value='Create database table' />

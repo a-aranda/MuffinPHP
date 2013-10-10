@@ -37,6 +37,12 @@ class CSession {
     return isset($this->data[$key]) ? $this->data[$key] : null;
   }
 
+  /**
+   * Get, Set or Unset the authenticated user
+   */
+  public function SetAuthenticatedUser($profile) { $this->data['authenticated_user'] = $profile; }
+  public function UnsetAuthenticatedUser() { unset($this->data['authenticated_user']); }
+  public function GetAuthenticatedUser() { return $this->authenticated_user; }
 
   /**
    * Set flash values, to be remembered one page request
@@ -44,8 +50,6 @@ class CSession {
   public function SetFlash($key, $value) {
     $this->data['flash'][$key] = $value;
   }
-
-
   /**
    * Get flash values, if any.
    */

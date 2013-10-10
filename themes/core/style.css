@@ -34,3 +34,4 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 .notice a, .warning a { color: #514721; }
 .success a         { color: #264409; }
 .info a            { color: #205791; }
+.anti-spam{display: none;}
