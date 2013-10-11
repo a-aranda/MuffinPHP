@@ -1,0 +1,14 @@
+Require vs Include
+-------------------
+
+The require() function is identical to include(), except that it handles errors differently.If an error occurs, the include() function generates a warning, but the script will continue execution. The require() generates a fatal error, and the script will stop.
+
+require
+when the file is required by your application, e.g. an important message template or a file containing configuration variables which with without the app would break.
+
+Include when the file is not required and application flow should continue when not found, e.g. great for templates referencing variables from the current scope or something
+
+----------------------------------------------------------------
+*********************** SEPARATOR ******************************
+----------------------------------------------------------------
+

@@ -115,7 +115,7 @@ class CMuffinPHP implements ISingleton {
     $muff = &$this;
     include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
     $functionsPath = "{$themePath}/functions.php";
-    if(is_file($functionsPath)) {
+    if(is_file($functionsPath)) { //it might not exist because is not the core of the framework
       include $functionsPath;
     }
     // Extract $muff->data and $muff->view->data to own variables and handover to the template file

@@ -2,7 +2,7 @@
 /**
 * Bootstrapping, setting up and loading the core.
 *
-* @package LydiaCore
+* @package MuffinPHP Core
 */
 
 /**
@@ -23,7 +23,7 @@ spl_autoload_register('autoload');
 /**
 * Helper, wrap html_entites with correct character encoding
 */
-function htmlent($str, $flags = ENT_COMPAT) {
+function htmlent($str, $flags = ENT_COMPAT) { //ENT_COMPAT -> Will convert double-quotes and leave single-quotes alone.
   return htmlentities($str, $flags, CMuffinPHP::Instance()->config['character_encoding']);
 }
 
