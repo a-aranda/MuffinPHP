@@ -28,7 +28,7 @@ class CCDeveloper extends CObject implements IController {
   //testing functions
   //
   $dirfunc = dirname(__FILE__);
-  $this->data['header'] = '<h1>Header: Lydia</h1>';
+  $this->data['header'] = '<h1>Header: MuffinPHP</h1>';
   $this->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
   $this->data['main'] = <<<EOD
   <h2>Some private Testing</h2>
@@ -85,7 +85,7 @@ private function Menu() {
     }
     
     $this->data['title'] = "The Developerr Controller";
-    $this->data['header'] = '<h1>Header: Lydia</h1>';
+    $this->data['header'] = '<h1>Header: MuffinPHP</h1>';
     $this->data['footer'] = '<p>Alvaro Aranda on MuffinPHP</p>';
     $this->data['main'] = <<<EOD
 <h1>The Developer Controller</h1>

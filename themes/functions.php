@@ -1,8 +1,9 @@
 <?php
 /**
-* Helpers for theming, available for all themes in their template files and functions.php.
-* This file is included right before the themes own functions.php
-*/
+ * Helpers for theming, available for all themes in their template files and functions.php.
+ * This file is included right before the themes own functions.php
+ */
+ 
 
 /**
  * Print debuginformation from the framework.
@@ -32,55 +33,16 @@ function get_debug() {
   if(isset($muff->config['debug']['timer']) && $muff->config['debug']['timer']) {
     $html .= "<p>Page was loaded in " . round(microtime(true) - $muff->timer['first'], 5)*1000 . " msecs.</p>";
   }    
-  if(isset($muff->config['debug']['lydia']) && $muff->config['debug']['lydia']) {
-    $html .= "<hr><h3>Debuginformation</h3><p>The content of CLydia:</p><pre>" . htmlent(print_r($muff, true)) . "</pre>";
+  if(isset($muff->config['debug']['muffin']) && $muff->config['debug']['muffin']) {
+    $html .= "<hr><h3>Debuginformation</h3><p>The content of CMuffinPHP:</p><pre>" . htmlent(print_r($muff, true)) . "</pre>";
   }    
   if(isset($muff->config['debug']['session']) && $muff->config['debug']['session']) {
-    $html .= "<hr><h3>SESSION</h3><p>The content of CLydia->session:</p><pre>" . htmlent(print_r($muff->session, true)) . "</pre>";
+    $html .= "<hr><h3>SESSION</h3><p>The content of CMuffinPHP->session:</p><pre>" . htmlent(print_r($muff->session, true)) . "</pre>";
     $html .= "<p>The content of \$_SESSION:</p><pre>" . htmlent(print_r($_SESSION, true)) . "</pre>";
   }    
   return $html;
 }
 
-/**
-* Create a url by prepending the base_url.
-*/
-function base_url($url) {
-  return CMuffinPHP::Instance()->request->base_url . trim($url, '/');
-}
-
-/**
-* Return the current url.
-*/
-function current_url() {
-  return CMuffinPHP::Instance()->request->current_url;
-}
-
-/**
- * Render all views.
- */
-function render_views() {
-  return CMuffinPHP::Instance()->views->Render();
-}
-
-/**
- * Prepend the theme_url, which is the url to the current theme directory.
- */
-function theme_url($url) {
-  $muff = CMuffinPHP::Instance();
-  return "{$muff->request->base_url}themes/{$muff->config['theme']['name']}/{$url}";
-}
-
-/**
- * Create a url to an internal resource.
- *
- * @param string the whole url or the controller. Leave empty for current controller.
- * @param string the method when specifying controller as first argument, else leave empty.
- * @param string the extra arguments to the method, leave empty if not using method.
- */
-function create_url($urlOrController=null, $method=null, $arguments=null) {
-  return CMuffinPHP::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
-}
 
 /**
  * Get messages stored in flash-session.
@@ -98,19 +60,65 @@ function get_messages_from_session() {
   return $html;
 }
 
-/** 
-* Login menu. Creates a menu which reflects if user is logged in or not. 
-*/ 
-function login_menu() { 
-  $muff = CMuffinPHP::Instance(); 
-  if($muff->user->IsAuthenticated()) { 
-    $items = "<a href='" . create_url('user/profile') . "'>" . $muff->user->GetAcronym() . "</a> "; 
-    if($muff->user->IsAdministrator()) { 
-      $items .= "<a href='" . create_url('acp') . "'>acp</a> "; 
-    } 
-      $items .= "<a href='" . create_url('user/logout') . "'>logout</a> "; 
-  } else { 
-   $items = "<a href='" . create_url('user/login') . "'>login</a> "; 
-  } 
-  return "<nav>$items</nav>"; 
+
+/**
+ * Login menu. Creates a menu which reflects if user is logged in or not.
+ */
+function login_menu() {
+  $muff = CMuffinPHP::Instance();
+  if($muff->user['isAuthenticated']) {
+    $items = "<a href='" . create_url('user/profile') . "'>" . $muff->user['acronym'] . "</a> ";
+    if($muff->user['hasRoleAdministrator']) {
+      $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
+    }
+    $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
+  } else {
+    $items = "<a href='" . create_url('user/login') . "'>login</a> ";
+  }
+  return "<nav>$items</nav>";
+}
+
+
+/**
+ * Prepend the base_url.
+ */
+function base_url($url=null) {
+  return CMuffinPHP::Instance()->request->base_url . trim($url, '/');
+}
+
+
+/**
+ * Create a url to an internal resource.
+ *
+ * @param string the whole url or the controller. Leave empty for current controller.
+ * @param string the method when specifying controller as first argument, else leave empty.
+ * @param string the extra arguments to the method, leave empty if not using method.
+ */
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return CMuffinPHP::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+}
+
+
+/**
+ * Prepend the theme_url, which is the url to the current theme directory.
+ */
+function theme_url($url) {
+  $muff = CMuffinPHP::Instance();
+  return "{$muff->request->base_url}themes/{$muff->config['theme']['name']}/{$url}";
+}
+
+
+/**
+ * Return the current url.
+ */
+function current_url() {
+  return CMuffinPHP::Instance()->request->current_url;
+}
+
+
+/**
+ * Render all views.
+ */
+function render_views() {
+  return CMuffinPHP::Instance()->views->Render();
 }
