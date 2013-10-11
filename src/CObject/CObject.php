@@ -20,14 +20,19 @@ class CObject {
    /**
     * Constructor
     */
-   protected function __construct() {
-    $muff = CMuffinPHP::Instance();
+   protected function __construct($muff=null) {
+    
+    if(!$muff) { 
+      $muff = CMuffinPHP::Instance(); 
+    } 
+    
     $this->config   = &$muff->config;
     $this->request  = &$muff->request;
     $this->data     = &$muff->data;
     $this->db       = &$muff->db;
     $this->views    = &$muff->views;
     $this->session  = &$muff->session;
+    $this->user = &$muff->user;
   }
 
   /**
