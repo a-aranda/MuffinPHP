@@ -76,18 +76,26 @@ public function Init() {
 * @param string $password the password that should match the akronym or emailadress. 
 * @returns booelan true if match else false. 
 */ 
-public function Login($akronymOrEmail, $password) { 
-  $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('check user password'), array($password, $akronymOrEmail, $akronymOrEmail)); 
-  $user = (isset($user[0])) ? $user[0] : null; 
-  unset($user['password']); 
-  if($user) { 
-    $user['groups'] = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get group memberships'), array($user['id'])); 
-    $this->session->SetAuthenticatedUser($user); 
-    $this->session->AddMessage('success', "Welcome '{$user['name']}'."); 
-  } else { 
-    $this->session->AddMessage('notice', "Could not login, user does not exists or password did not match."); 
-  } 
-  return ($user != null); 
+public function Login($akronymOrEmail, $password) {
+  $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('check user password'), array($password, $akronymOrEmail, $akronymOrEmail));
+  $user = (isset($user[0])) ? $user[0] : null;
+  unset($user['password']);
+  if($user) {
+    $user['groups'] = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get group memberships'), array($user['id']));
+    foreach($user['groups'] as $val) {
+      if($val['id'] == 1) {
+        $user['hasRoleAdmin'] = true;
+      }
+      if($val['id'] == 2) {
+        $user['hasRoleUser'] = true;
+      }
+    }
+    $this->session->SetAuthenticatedUser($user);
+    $this->session->AddMessage('success', "Welcome '{$user['name']}'.");
+  } else {
+    $this->session->AddMessage('notice', "Could not login, user does not exists or password did not match.");
+  }
+  return ($user != null);
 }
 
 /**
@@ -114,9 +122,28 @@ public function IsAuthenticated() {
  *
  * @returns array with user profile or null if anonymous user.
  */
-public function GetUserProfile() {
+public function GetProfile() {
   return $this->session->GetAuthenticatedUser();
 }
-  
+
+/** 
+* Get the user acronym. 
+* 
+* @returns string with user acronym or null 
+*/ 
+public function GetAcronym() { 
+  $profile = $this->GetProfile(); 
+  return isset($profile['acronym']) ? $profile['acronym'] : null; 
+}
+ 
+/** 
+* Does the user have the admin role? 
+* 
+* @returns boolen true or false. 
+*/ 
+public function IsAdministrator() { 
+  $profile = $this->GetProfile();
+  return isset($profile['hasRoleAdmin']) ? $profile['hasRoleAdmin'] : null; 
+} 
   
 }

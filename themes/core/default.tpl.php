@@ -9,9 +9,12 @@
 <body>
   <div id='wrap-header'>
     <div id='header'>
-    <div id='banner'>
-      <p class='site-title'><?=$header?></p>
-    </div>
+      <div id='login-menu'>
+        <?=login_menu()?>
+      </div>
+      <div id='banner'>
+        <p class='site-title'><?=$header?></p>
+      </div>
     </div>
   </div>
   <div id='wrap-main'>

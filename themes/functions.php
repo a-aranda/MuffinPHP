@@ -97,3 +97,20 @@ function get_messages_from_session() {
   }
   return $html;
 }
+
+/** 
+* Login menu. Creates a menu which reflects if user is logged in or not. 
+*/ 
+function login_menu() { 
+  $muff = CMuffinPHP::Instance(); 
+  if($muff->user->IsAuthenticated()) { 
+    $items = "<a href='" . create_url('user/profile') . "'>" . $muff->user->GetAcronym() . "</a> "; 
+    if($muff->user->IsAdministrator()) { 
+      $items .= "<a href='" . create_url('acp') . "'>acp</a> "; 
+    } 
+      $items .= "<a href='" . create_url('user/logout') . "'>logout</a> "; 
+  } else { 
+   $items = "<a href='" . create_url('user/login') . "'>login</a> "; 
+  } 
+  return "<nav>$items</nav>"; 
+}
