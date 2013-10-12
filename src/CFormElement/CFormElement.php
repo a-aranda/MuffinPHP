@@ -2,7 +2,7 @@
 /** 
 * A utility class to easy creating and handling of forms 
 * 
-* @package LydiaCore 
+* @package MuffinPHP Core 
 */ 
 class CFormElement implements ArrayAccess{ 
 

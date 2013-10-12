@@ -80,7 +80,7 @@ public function __construct($muff=null) {
       $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
       $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
       $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
-      $this->session->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
+      $this->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
     } catch(Exception$e) {
       die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
     }
@@ -124,7 +124,7 @@ public function __construct($muff=null) {
   public function Logout() {
     $this->session->UnsetAuthenticatedUser();
     $this->profile = array();
-    $this->session->AddMessage('success', "You have logged out.");
+    $this->AddMessage('success', "You have logged out.");
   }
   
 
