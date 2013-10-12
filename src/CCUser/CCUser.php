@@ -6,14 +6,12 @@
  */
 class CCUser extends CObject implements IController {
 
-
 /**
  * Constructor
  */
 public function __construct() {
   parent::__construct();
 }
-
 
 /**
  * Show profile information of the user.
@@ -26,22 +24,23 @@ public function Index() {
               ));
 }
 
-
 /**
  * View and edit user profile.
  */
 public function Profile() {    
   $form = new CFormUserProfile($this, $this->user);
-  $form->CheckIfSubmitted();
+  if($form->Check() === false) {
+    $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+    $this->RedirectToController('profile');
+  }
 
   $this->views->SetTitle('User Profile');
-              $this->views->AddInclude(__DIR__ . '/profile.tpl.php', array(
-                'is_authenticated'=>$this->user['isAuthenticated'], 
-                'user'=>$this->user,
-                'profile_form'=>$form->GetHTML(),
-              ));
+  $this->views->AddInclude(__DIR__ . '/profile.tpl.php', array(
+    'is_authenticated'=>$this->user['isAuthenticated'], 
+    'user'=>$this->user,
+    'profile_form'=>$form->GetHTML(),
+  ));
 }
-
 
 /**
  * Change the password.
@@ -71,17 +70,21 @@ public function DoProfileSave($form) {
  * Authenticate and login a user.
  */
 public function Login() {
-  $form = new CFormUserLogin($this);
-  $form->CheckIfSubmitted();
+$form = new CFormUserLogin($this); 
+if($form->Check() === false) { 
+$this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.'); 
+$this->RedirectToController('login'); 
+} 
   $this->views->SetTitle('Login');
   $this->views->AddInclude(__DIR__ . '/login.tpl.php', array('login_form'=>$form->GetHTML()));     
 }
+
 
 /**
  * Perform a login of the user as callback on a submitted form.
  */
 public function DoLogin($form) {
-  if($this->user->Login($form['username']['value'], $form['password']['value'])) {
+  if($this->user->Login($form['acronym']['value'], $form['password']['value'])) {
     $this->AddMessage('success', "Welcome {$this->user['name']}.");
     $this->RedirectToController('profile');
   } else {
