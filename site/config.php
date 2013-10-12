@@ -49,6 +49,11 @@ $muff->config['enabled'] = 'on';
 */
 $muff->config['database'][0]['dsn'] = 'sqlite:' . MUFFINPHP_SITE_PATH . '/data/.ht.sqlite';
 
+/** 
+* Allow or disallow creation of new user accounts. 
+*/ 
+$muff->config['create_new_users'] = true;
+
 /**
 * Set what to show as debug or developer information in the get_debug() theme helper.
 */

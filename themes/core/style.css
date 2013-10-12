@@ -21,6 +21,14 @@ body{
 }
 
 /**
+ * Login menu
+ */
+#login-menu{float:right;font-size:smaller;}
+#login-menu img.gravatar{vertical-align:middle;}
+#login-menu a{text-decoration:none;}
+#login-menu a:hover{text-decoration:underline;}
+
+/**
  * User feedback message wrappers.
  */
 .error, .alert, .warning, .notice, .success, .info { 
@@ -36,5 +44,12 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 .info a            { color: #205791; }
 .anti-spam{display: none;}
 
-.validation-failed{border:2px solid red;} 
+/**
+ * Forms
+ */
+input{font:inherit;}
+input[readonly]{color:#666;}
+label{font-size:smaller;}
+.validation-failed{border:2px solid red;}
 .validation-message{color:red;font-size:smaller;}
+.form-action-link{font-size:smaller;}

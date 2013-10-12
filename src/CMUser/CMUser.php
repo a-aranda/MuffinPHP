@@ -87,7 +87,6 @@ public function Init() {
     die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
   }
 }
-  
 
 /**
  * Login by autenticate the user and password. Store user information in session if success.
@@ -203,6 +202,25 @@ case 'md5': return $password === md5($plain); break;
 case 'plain': return $password === $plain; break; 
 default: throw new Exception('Unknown hashing algorithm'); 
 } 
+}
+
+/** 
+* Create new user. 
+* 
+* @param $acronym string the acronym. 
+* @param $password string the password plain text to use as base. 
+* @param $name string the user full name. 
+* @param $email string the user email. 
+* @returns boolean true if user was created or else false and sets failure message in session. 
+*/ 
+public function Create($acronym, $password, $name, $email) { 
+$pwd = $this->CreatePassword($password); 
+$this->db->ExecuteQuery(self::SQL('insert into user'), array($acronym, $name, $email, $pwd['algorithm'], $pwd['salt'], $pwd['password'])); 
+if($this->db->RowCount() == 0) { 
+$this->AddMessage('error', "Failed to create user."); 
+return false; 
+} 
+return true; 
 }
 
   
