@@ -57,6 +57,11 @@ $muff->config['debug']['db-num-queries'] = true;
 $muff->config['debug']['db-queries'] = true;
 
 /** 
+* How to hash password of new users, choose from: plain, md5salt, md5, sha1salt, sha1. 
+*/ 
+$muff->config['hashing_algorithm'] = 'sha1salt';
+
+/** 
 * Define the controllers, their classname and enable/disable them. 
 * 
 * The array-key is matched against the url, for example: 
