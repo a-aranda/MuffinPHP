@@ -67,7 +67,7 @@ function get_messages_from_session() {
 function login_menu() {
   $muff = CMuffinPHP::Instance();
   if($muff->user['isAuthenticated']) {
-    $items = "<a href='" . create_url('user/profile') . "'>" . $muff->user['acronym'] . "</a> ";
+    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $muff->user['acronym'] . "</a> ";
     if($muff->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
@@ -75,7 +75,7 @@ function login_menu() {
   } else {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
-  return "<nav>$items</nav>";
+  return "<nav id='login-menu'>$items</nav>";
 }
 
 
@@ -86,6 +86,12 @@ function base_url($url=null) {
   return CMuffinPHP::Instance()->request->base_url . trim($url, '/');
 }
 
+/** 
+* Get a gravatar based on the user's email. 
+*/ 
+function get_gravatar($size=null) { 
+return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(CMuffinPHP::Instance()->user['email']))) . '.jpg?' . ($size ? "s=$size" : null); 
+}
 
 /**
  * Create a url to an internal resource.
