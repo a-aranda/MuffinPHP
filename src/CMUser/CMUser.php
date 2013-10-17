@@ -19,6 +19,10 @@ public function __construct($muff=null) {
   $profile = $this->session->GetAuthenticatedUser();
   $this->profile = is_null($profile) ? array() : $profile;
   $this['isAuthenticated'] = is_null($profile) ? false : true;
+  if(!$this['isAuthenticated']) {
+      $this['id'] = 1;
+      $this['acronym'] = 'anonomous';      
+    }
 }
 
 /**
