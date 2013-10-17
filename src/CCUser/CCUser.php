@@ -18,7 +18,7 @@ public function __construct() {
  */
 public function Index() {
   $this->views->SetTitle('User Controller');
-  	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+          $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
                 'is_authenticated'=>$this->user['isAuthenticated'], 
                 'user'=>$this->user,
               ));

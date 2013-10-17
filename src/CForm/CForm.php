@@ -1,43 +1,41 @@
 <?php
 /**
-* A utility class to easy creating and handling of forms
-* 
-* @package MuffinPHP Core
-*/
+ * A utility class to easy creating and handling of forms
+ * 
+ * @package MuffinPHP Core
+ */
 class CFormElement implements ArrayAccess{
 
-/**
- * Properties
- */
-public $attributes;
-public $characterEncoding;
+  /**
+   * Properties
+   */
+  public $attributes;
+  public $characterEncoding;
 
-
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-
-public function __construct($name, $attributes=array()) {
-  $this->attributes = $attributes;    
-  $this['name'] = $name;
-  if(is_callable('CLydia::Instance()')) {
-    $this->characterEncoding = CLydia::Instance()->config['character_encoding'];
-  } else {
-    $this->characterEncoding = 'UTF-8';
+    /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    $this->attributes = $attributes;    
+    $this['name'] = $name;
+    if(is_callable('CMuffinPHP::Instance()')) {
+      $this->characterEncoding = CMuffinPHP::Instance()->config['character_encoding'];
+    } else {
+      $this->characterEncoding = 'UTF-8';
+    }
   }
-}
-
-
-/**
- * Implementing ArrayAccess for this->attributes
- */
-public function offsetSet($offset, $value) { if (is_null($offset)) { $this->attributes[] = $value; } else { $this->attributes[$offset] = $value; }}
-public function offsetExists($offset) { return isset($this->attributes[$offset]); }
-public function offsetUnset($offset) { unset($this->attributes[$offset]); }
-public function offsetGet($offset) { return isset($this->attributes[$offset]) ? $this->attributes[$offset] : null; }
+  
+  
+  /**
+   * Implementing ArrayAccess for this->attributes
+   */
+  public function offsetSet($offset, $value) { if (is_null($offset)) { $this->attributes[] = $value; } else { $this->attributes[$offset] = $value; }}
+  public function offsetExists($offset) { return isset($this->attributes[$offset]); }
+  public function offsetUnset($offset) { unset($this->attributes[$offset]); }
+  public function offsetGet($offset) { return isset($this->attributes[$offset]) ? $this->attributes[$offset] : null; }
 
 
 /**
@@ -54,28 +52,29 @@ public function GetHTML() {
   $label = isset($this['label']) ? ($this['label'] . (isset($this['required']) && $this['required'] ? "<span class='form-element-required'>*</span>" : null)) : null;
   $autofocus = isset($this['autofocus']) && $this['autofocus'] ? " autofocus='autofocus'" : null;    
   $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
-  $type         = isset($this['type']) ? " type='{$this['type']}'" : null;
+  $type   = isset($this['type']) ? " type='{$this['type']}'" : null;
   $onlyValue         = isset($this['value']) ? htmlentities($this['value'], ENT_COMPAT, $this->characterEncoding) : null;
-  $value         = isset($this['value']) ? " value='{$onlyValue}'" : null;
+  $value  = isset($this['value']) ? " value='{$this['value']}'" : null;
+
 
   $messages = null;
-  if(isset($this['validation-messages'])) {
+  if(isset($this['validation_messages'])) {
     $message = null;
-    foreach($this['validation-messages'] as $val) {
+    foreach($this['validation_messages'] as $val) {
       $message .= "<li>{$val}</li>\n";
     }
     $messages = "<ul class='validation-message'>\n{$message}</ul>\n";
   }
   
   if($type && $this['type'] == 'submit') {
-      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";
-  } else if($type && $this['type'] == 'textarea') {
-      return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
-  } else if($type && $this['type'] == 'hidden') {
-      return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
-  } else {
-    return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";                          
-  }
+        return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";
+    } else if($type && $this['type'] == 'textarea') {
+        return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
+    } else if($type && $this['type'] == 'hidden') {
+        return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
+    } else {
+      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";                          
+    }
 }
 
 
@@ -87,9 +86,18 @@ public function GetHTML() {
  */
 public function Validate($rules) {
   $tests = array(
-    'fail' => array('message' => 'Will always fail.', 'test' => 'return false;'),
-    'pass' => array('message' => 'Will always pass.', 'test' => 'return true;'),
-    'not_empty' => array('message' => 'Can not be empty.', 'test' => 'return $value != "";'),
+    'fail' => array(
+      'message' => 'Will always fail.', 
+      'test' => 'return false;',
+    ),
+    'pass' => array(
+      'message' => 'Will always pass.', 
+      'test' => 'return true;',
+    ),
+    'not_empty' => array(
+      'message' => 'Can not be empty.', 
+      'test' => 'return $value != "";',
+    ),
   );
   $pass = true;
   $messages = array();
@@ -102,7 +110,7 @@ public function Validate($rules) {
       $pass = false;
     }
   }
-  if(!empty($messages)) $this['validation-messages'] = $messages;
+  if(!empty($messages)) $this['validation_messages'] = $messages;
   return $pass;
 }
 
@@ -126,81 +134,79 @@ public function UseNameAsDefaultValue() {
   }
 }
 
-
-}
+} //CFormElement ends
 
 
 class CFormElementText extends CFormElement {
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-public function __construct($name, $attributes=array()) {
-  parent::__construct($name, $attributes);
-  $this['type'] = 'text';
-  $this->UseNameAsDefaultLabel();
-}
-}
-
-
-class CFormElementTextarea extends CFormElement {
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-public function __construct($name, $attributes=array()) {
-  parent::__construct($name, $attributes);
-  $this['type'] = 'textarea';
-  $this->UseNameAsDefaultLabel();
-}
-}
-
-
-class CFormElementHidden extends CFormElement {
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-public function __construct($name, $attributes=array()) {
-  parent::__construct($name, $attributes);
-  $this['type'] = 'hidden';
-}
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'text';
+    $this->UseNameAsDefaultLabel();
+  }
 }
 
 
 class CFormElementPassword extends CFormElement {
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-public function __construct($name, $attributes=array()) {
-  parent::__construct($name, $attributes);
-  $this['type'] = 'password';
-  $this->UseNameAsDefaultLabel();
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'password';
+    $this->UseNameAsDefaultLabel();
+  }
 }
+
+class CFormElementTextarea extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'textarea';
+    $this->UseNameAsDefaultLabel();
+  }
+}
+
+
+class CFormElementHidden extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'hidden';
+  }
 }
 
 
 class CFormElementSubmit extends CFormElement {
-/**
- * Constructor
- *
- * @param string name of the element.
- * @param array attributes to set to the element. Default is an empty array.
- */
-public function __construct($name, $attributes=array()) {
-  parent::__construct($name, $attributes);
-  $this['type'] = 'submit';
-  $this->UseNameAsDefaultValue();
-}
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'submit';
+    $this->UseNameAsDefaultValue();
+  }
 }
 
 
@@ -254,39 +260,35 @@ public function SetValidation($element, $rules) {
   $this[$element]['validation'] = $rules;
   return $this;
 }
-
-
-/**
- * Return HTML for the form or the formdefinition.
- *
- * @param $attributes array with attributes affecting the form output.
- * @returns string with HTML for the form.
- */
-public function GetHTML($attributes=null) {
-  if(is_array($attributes)) {
-    $this->form = array_merge($this->form, $attributes);
-  }
-  $id           = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
-  $class         = isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
-  $name         = isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
-  $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
-  $method = " method='post'";
-
-  if(isset($attributes['start']) && $attributes['start']) {
-    return "<form{$id}{$class}{$name}{$action}{$method}>";
-  }
   
-  $elements = $this->GetHTMLForElements();
-  $html = <<< EOD
+/**
+   * Return HTML for the form or the formdefinition.
+   *
+   * @param $type string what part of the form to return.
+   * @returns string with HTML for the form.
+   */
+  public function GetHTML($type=null) {
+    $id     = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
+    $class  = isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
+    $name   = isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
+    $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
+    $method = " method='post'";
+
+    if($type == 'form') {
+      return "<form{$id}{$class}{$name}{$action}{$method}>";
+    }
+    
+    $elements = $this->GetHTMLForElements();
+    $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}>
 <fieldset>
 {$elements}
 </fieldset>
 </form>
 EOD;
-  return $html;
-}
-
+    return $html;
+  }
+ 
 
 /**
  * Return HTML for the elements
@@ -298,7 +300,7 @@ public function GetHTMLForElements() {
   }
   return $html;
 }
-
+  
 
 /**
  * Check if a form was submitted and perform validation and call callbacks.
@@ -356,6 +358,5 @@ public function Check() {
   else 
     return $validates;
 }
-
-
+  
 }
