@@ -135,3 +135,15 @@ function render_views() {
 function esc($str) {
   return htmlEnt($str);
 }
+
+/**
+ * Filter data according to a filter. Uses CMContent::Filter()
+ *
+ * @param $data string the data-string to filter.
+ * @param $filter string the filter to use.
+ * @returns string the filtered string.
+ */
+function filter_data($data, $filter) {
+  return CMContent::Filter($data, $filter);
+}
+

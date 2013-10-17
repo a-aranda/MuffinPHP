@@ -34,3 +34,38 @@ function exception_handler($exception) {
   echo "MUFFINPHP EXCEPTION: Uncaught exception: <p>" . $exception->getMessage() . "</p><pre>" . $exception->getTraceAsString(), "</pre>";
 }
 set_exception_handler('exception_handler');
+
+/**
+ * Set a default exception handler and enable logging in it.
+ */
+function exceptionHandler($e) {
+  echo "Lydia: Uncaught exception: <p>" . $e->getMessage() . "</p><pre>" . $e->getTraceAsString(), "</pre>";
+}
+set_exception_handler('exceptionHandler');
+
+/**
+ * Helper, include a file and store it in a string. Make $vars available to the included file.
+ */
+function getIncludeContents($filename, $vars=array()) {
+  if (is_file($filename)) {
+    ob_start();
+    extract($vars);
+    include $filename;
+    return ob_get_clean();
+  }
+  return false;
+}
+
+/**
+ * Helper, make clickable links from URLs in text.
+ */
+function makeClickable($text) {
+  return preg_replace_callback(
+    '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', 
+    create_function(
+      '$matches',
+      'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
+    ),
+    $text
+  );
+}
