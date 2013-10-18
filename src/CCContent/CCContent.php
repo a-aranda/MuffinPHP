@@ -20,8 +20,10 @@ public function Index() {
 	$content = new CMContent(); 
 	$this->views->SetTitle('Content Controller');
 	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array( 
-	'contents' => $content->ListAll(), 
-	)); 
+	'contents' => $content->ListAll(),
+	'testData' => CTextFilter::testlibrary(),	
+)); 
+
 } 
 
 
