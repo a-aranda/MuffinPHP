@@ -2,7 +2,7 @@
 /**
 * A container to hold a bunch of views.
 *
-* @package LydiaCore
+* @package MuffinPHP Core
 */
 
 class CViewContainer {

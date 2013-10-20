@@ -111,7 +111,7 @@ public function FrontControllerRoute() {
     $themeUrl   = $this->request->base_url . "themes/{$themeName}";
     
     // Add stylesheet path to the $muff->data array
-    $this->data['stylesheet'] = "{$themeUrl}/style.css";
+    $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
 
     // Include the global functions.php and the functions.php that are part of the theme
     $muff = &$this;

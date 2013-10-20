@@ -84,6 +84,7 @@ $muff->config['controllers'] = array(
 'content'   => array('enabled' => true,'class' => 'CCContent'),
 'page'      => array('enabled' => true,'class' => 'CCPage'),
 'blog'      => array('enabled' => true,'class' => 'CCBlog'),
+'theme'     => array('enabled' => true,'class' => 'CCTheme'),
 );
 
 /**
@@ -91,7 +92,8 @@ $muff->config['controllers'] = array(
 */
 $muff->config['theme'] = array(
   // The name of the theme in the theme directory
-  'name'	=> 'core',
+  'name'	=> 'grid',
+  'stylesheet' => 'style.php',
 );
 
 /** 
