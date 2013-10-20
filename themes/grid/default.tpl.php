@@ -21,7 +21,6 @@
     <div id='main' role='main'>
       <?=get_messages_from_session()?> 
       <?=@$main?>
-      <?=$stylesheet?>
       <?=render_views()?>
     </div>
   </div>
