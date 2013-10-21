@@ -123,7 +123,8 @@ public function FrontControllerRoute() {
     // Extract $muff->data and $muff->view->data to own variables and handover to the template file
     extract($this->data);     
     extract($this->views->GetData());     
-    include("{$themePath}/default.tpl.php");
+    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php'; 
+    include("{$themePath}/{$templateFile}"); 
   }
 
 }

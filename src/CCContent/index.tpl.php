@@ -12,7 +12,7 @@
   <p>No content exists.</p>
 <?php endif;?>
 
-<div style="background:#d2e9f4;">
+<!-- <div style="background:#d2e9f4;">
 <h2>CText validation</h2>
 <h3>Clickable Test</h3>
 <p><?=$testData['clickable']?></p>
@@ -20,7 +20,7 @@
 <p><?=$testData['markdown']?></p>
 <h3>Smartpants Test</h3>
 <p><?=$testData['smartpants']?></p>
-</div>
+</div> -->
 <h2>Actions</h2>
 <ul>
   <li><a href='<?=create_url('content/init')?>'>Init database, create tables and sample content</a>

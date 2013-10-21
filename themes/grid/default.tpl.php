@@ -27,8 +27,8 @@
   <div id='wrap-footer'>
     <div id='footer'>
       <?=$footer?>
-      <?=get_debug()?>
-    </div>
+      <!--<?=get_debug()?>-->
+     </div> 
   </div>
 </body>
 </html>
