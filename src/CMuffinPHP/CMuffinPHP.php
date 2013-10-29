@@ -100,10 +100,8 @@ public function FrontControllerRoute() {
     // Save to session before output anything
     $this->session->StoreInSession();
 
-    // Is theme enabled?
-    if(!isset($this->config['theme'])) {
-      return;
-    }
+     // Is theme enabled?
+    if(!isset($this->config['theme'])) { return; }
     
     // Get the paths and settings for the theme
     $themeName  = $this->config['theme']['name'];
@@ -122,7 +120,10 @@ public function FrontControllerRoute() {
     }
     // Extract $muff->data and $muff->view->data to own variables and handover to the template file
     extract($this->data);     
-    extract($this->views->GetData());     
+    extract($this->views->GetData());
+    if(isset($this->config['theme']['data'])) {
+      extract($this->config['theme']['data']);
+    }  
     $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php'; 
     include("{$themePath}/{$templateFile}"); 
   }
