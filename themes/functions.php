@@ -121,12 +121,22 @@ function current_url() {
   return CMuffinPHP::Instance()->request->current_url;
 }
 
+/**
+* Render all views.
+*
+* @param $region string the region to draw the content in.
+*/
+function render_views($region='default') {
+  return CMuffinPHP::Instance()->views->Render($region);
+}
 
 /**
- * Render all views.
- */
-function render_views() {
-  return CMuffinPHP::Instance()->views->Render();
+* Check if region has views. Accepts variable amount of arguments as regions.
+*
+* @param $region string the region to draw the content in.
+*/
+function region_has_content($region='default' /*...*/) {
+  return CMuffinPHP::Instance()->views->RegionHasView(func_get_args());
 }
 
 /**

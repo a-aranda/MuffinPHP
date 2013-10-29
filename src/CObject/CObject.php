@@ -15,7 +15,7 @@ class CObject {
    public $db;
    public $views;
    public $session;
-   
+   protected $user;
 
    /**
     * Constructor
