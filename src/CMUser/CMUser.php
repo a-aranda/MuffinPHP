@@ -4,7 +4,7 @@
  * 
  * @package MuffinPHP Core
  */
-class CMUser extends CObject implements IHasSQL, ArrayAccess {
+class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
 
  /**
    * Properties
@@ -62,35 +62,77 @@ public static function SQL($key=null) {
 }
 
 
+// /**
+//  * Init the database and create appropriate tables.
+//  */
+// public function Init() {
+//   try {
+//     $this->db->ExecuteQuery(self::SQL('drop table user2group'));
+//     $this->db->ExecuteQuery(self::SQL('drop table group'));
+//     $this->db->ExecuteQuery(self::SQL('drop table user'));
+//     $this->db->ExecuteQuery(self::SQL('create table user'));
+//     $this->db->ExecuteQuery(self::SQL('create table group'));
+//     $this->db->ExecuteQuery(self::SQL('create table user2group'));
+//     $password = $this->CreatePassword('root');
+//     $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+//     $idRootUser = $this->db->LastInsertId();
+//     $password = $this->CreatePassword('doe');
+//     $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+//     $idDoeUser = $this->db->LastInsertId();
+//     $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
+//     $idAdminGroup = $this->db->LastInsertId();
+//     $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
+//     $idUserGroup = $this->db->LastInsertId();
+//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
+//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
+//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
+//     $this->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
+//   } catch(Exception$e) {
+//     die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+//   }
+// }
+
 /**
- * Init the database and create appropriate tables.
+ * Implementing interface IModule. Manage install/update/deinstall and equal actions.
+ *
+ * @param string $action what to do.
  */
-public function Init() {
-  try {
-    $this->db->ExecuteQuery(self::SQL('drop table user2group'));
-    $this->db->ExecuteQuery(self::SQL('drop table group'));
-    $this->db->ExecuteQuery(self::SQL('drop table user'));
-    $this->db->ExecuteQuery(self::SQL('create table user'));
-    $this->db->ExecuteQuery(self::SQL('create table group'));
-    $this->db->ExecuteQuery(self::SQL('create table user2group'));
-    $password = $this->CreatePassword('root');
-    $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
-    $idRootUser = $this->db->LastInsertId();
-    $password = $this->CreatePassword('doe');
-    $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
-    $idDoeUser = $this->db->LastInsertId();
-    $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
-    $idAdminGroup = $this->db->LastInsertId();
-    $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
-    $idUserGroup = $this->db->LastInsertId();
-    $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
-    $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
-    $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
-    $this->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
-  } catch(Exception$e) {
-    die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+public function Manage($action=null) {
+  switch($action) {
+    case 'install': 
+      try {
+        $this->db->ExecuteQuery(self::SQL('drop table user2group'));
+        $this->db->ExecuteQuery(self::SQL('drop table group'));
+        $this->db->ExecuteQuery(self::SQL('drop table user'));
+        $this->db->ExecuteQuery(self::SQL('create table user'));
+        $this->db->ExecuteQuery(self::SQL('create table group'));
+        $this->db->ExecuteQuery(self::SQL('create table user2group'));
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonomous', 'Anonomous, not authenticated', null, 'plain', null, null));
+        $password = $this->CreatePassword('root');
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+        $idRootUser = $this->db->LastInsertId();
+        $password = $this->CreatePassword('doe');
+        $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+        $idDoeUser = $this->db->LastInsertId();
+        $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
+        $idAdminGroup = $this->db->LastInsertId();
+        $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
+        $idUserGroup = $this->db->LastInsertId();
+        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
+        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
+        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
+        return array('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
+      } catch(Exception$e) {
+        die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+      }   
+    break;
+    
+    default:
+      throw new Exception('Unsupported action for this module.');
+    break;
   }
 }
+
 
 /**
  * Login by autenticate the user and password. Store user information in session if success.

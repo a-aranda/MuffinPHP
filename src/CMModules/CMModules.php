@@ -55,6 +55,7 @@ class CMModules extends CObject {
           $modules[$module]['isController']  = $rc->implementsInterface('IController');
           $modules[$module]['isModel']       = preg_match('/^CM[A-Z]/', $rc->name);
           $modules[$module]['hasSQL']        = $rc->implementsInterface('IHasSQL');
+          $modules[$module]['isManageable']  = $rc->implementsInterface('IModule');
           $modules[$module]['isMuffinPHPCore']   = in_array($rc->name, array('CMuffinPHP', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject'));
           $modules[$module]['isMuffinPHPCMF']    = in_array($rc->name, array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier'));
         }
@@ -64,5 +65,32 @@ class CMModules extends CObject {
     ksort($modules, SORT_LOCALE_STRING);
     return $modules;
   }
+
+/**
+   * Install all modules.
+   *
+   * @returns array with a entry for each module and the result from installing it.
+   */
+  public function Install() {
+    $allModules = $this->ReadAndAnalyse();
+    uksort($allModules, function($a, $b) {
+        return ($a == 'CMUser' ? -1 : ($b == 'CMUser' ? 1 : 0));
+      }
+    );
+    $installed = array();
+    foreach($allModules as $module) {
+      if($module['isManageable']) {
+        $classname = $module['name'];
+        $rc = new ReflectionClass($classname);
+        $obj = $rc->newInstance();
+        $method = $rc->getMethod('Manage');
+        $installed[$classname]['name']    = $classname;
+        $installed[$classname]['result']  = $method->invoke($obj, 'install');
+      }
+    }
+    //ksort($installed, SORT_LOCALE_STRING);
+    return $installed;
+  }
+
 
 }

@@ -60,6 +60,17 @@
 </ul>
 </div>
 
+<div class='box'>
+<h4>Manageable module</h4>
+<p>Implements interface <code>IModule</code>.</p>
+<ul>
+<?php foreach($modules as $module): ?>
+  <?php if($module['isManageable']): ?>
+  <li><?=$module['name']?></li>
+  <?php endif; ?>
+<?php endforeach; ?>
+</ul>
+</div>
 
 <div class='box'>
 <h4>Contains SQL</h4>
