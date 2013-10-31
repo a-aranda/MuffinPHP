@@ -41,10 +41,10 @@
           </div>
           <div class="col-sm-4">
             <center>
-              <ul>
+              <ul class="nav-muffin">
                 <a href="">Documentation</a>
                 <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" target="_blank">About me</a>
-                <a href="https://github.com/a-aranda/MuffinPHP" target="_blank">Fork my Github</a>
+                <a href="https://github.com/a-aranda/MuffinPHP" target="_blank">Github</a>
               </ul>
               <a href="https://github.com/a-aranda/MuffinPHP/releases"><img src="<?=theme_url($btn_download)?>" id="btn-download" alt=""></button></a>
              </center>
