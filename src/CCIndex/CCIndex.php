@@ -18,7 +18,8 @@ class CCIndex extends CObject implements IController {
 */ 
 public function Index() { 
 	$this->views->SetTitle('Index Controller'); 
-	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array('menu'=>$this->Menu())); 
+	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array('menu'=>$this->Menu()));
+	$this->views->AddInclude(__DIR__ . '/sidebar.tpl.php', array(), 'sidebar');
 }
 
 /** 
