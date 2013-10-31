@@ -103,12 +103,14 @@ $muff->config['theme'] = array(
   // Add static entries for use in the template file. 
   'data' => array(
     'header' => 'MuffinPHP',
-    'slogan' => 'A PHP-based MVC-inspired CMF',
-    'favicon' => 'logo_80x80.png',
-    'logo' => 'logo_80x80.png',
-    'logo_width'  => 80,
-    'logo_height' => 80,
-    'footer' => '<p>MuffinPHP &copy; by Alvaro Aranda</p>',
+    'slogan' => 'This is a prebaked framework that makes building web applications easier and faster.',
+    'favicon' => 'favicon.ico',
+    'logo' => 'img/muff.png',
+    'btn_download' => 'img/btn-download.png',
+    'btn_download_hover' => 'img/btn-download-hover.png',
+    'hr' => 'img/hr-muff-divider.png',
+    'cat' => 'img/muff-cat.png',
+    'footer' => '<p class="text-center">Powered by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom06-extra/muffinphp/" class="navbar-link">Muffin PHP </a>&copy; by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" class="navbar-link">Alvaro Aranda Muñoz</a></p>',
   ),
 );
 

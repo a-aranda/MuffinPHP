@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+    <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
 
     <title><?=$title?></title>
 
@@ -32,12 +32,12 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-4">
-            <p id="muffin-php" class="text-center"><a href="<?=base_url()?>">Muffin PHP</a></p>
-            <center><img src="<?=theme_url("img/hr-muff-divider.png")?>" id="hr-divider" height="8px" alt=""></center>
-            <p class="text-center">This is a prebaked framework that makes building web applications easier and faster.</p>
+            <p id="muffin-php" class="text-center"><a href="<?=base_url()?>"><?=$header?></a></p>
+            <center><img src="<?=theme_url($hr)?>" id="hr-divider" height="8px" alt=""></center>
+            <p class="text-center"><?=$slogan?></p>
           </div>
           <div class="col-sm-4">
-            <center><img id="muff" src="<?=theme_url("img/muff.png")?>" alt=""></center>
+            <center><img id="muff" src="<?=theme_url($logo)?>" alt=""></center>
           </div>
           <div class="col-sm-4">
             <center>
@@ -46,7 +46,7 @@
                 <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" target="_blank">About me</a>
                 <a href="https://github.com/a-aranda/MuffinPHP" target="_blank">Fork my Github</a>
               </ul>
-              <a href=""><img src="<?=theme_url("img/btn-download.png")?>" id="btn-download" alt=""></button></a>
+              <a href="https://github.com/a-aranda/MuffinPHP/releases"><img src="<?=theme_url($btn_download)?>" id="btn-download" alt=""></button></a>
              </center>
           </div>
         </div>
@@ -93,28 +93,29 @@
           <?php endif; ?>
         </div>
         <div class="col-sm-3 col-md-offset-1 sidebar">
-          <h3><b class="muffin"></b>Navigation Sidebar</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, nemo, magnam, id recusandae excepturi a ipsam iure pariatur eius vitae quos ex incidunt! Dolorem, inventore ea optio beatae minima ipsam.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, ratione, repellendus nulla ea dolorem ut sit nostrum aliquid expedita repudiandae. Repudiandae, expedita alias ad facere magni cumque vitae? Quae, obcaecati!</p>
+          <h3><b class="muffin"></b>About MuffinPHP</h3>
+          <p>MuffinPHP is a php framework which offers a basic structure with some functionality for developing web applications.</p>
+          <h3><b class="muffin"></b>About Me</h3>
+          <p>My name is Álvaro Aranda and I'm a 24 years old guy from Madrid, Spain. In the past years I have been studying interaction design and user experience in Sweden, and I love everything that is related to design and the web. I hope this course will help me in improving my php skills.</p>
+          <div id='sidebar'><?=render_views('sidebar')?></div>
         </div>
       </div>
     </div>
 
     <footer id="nav-bottom">
-      <img src="<?=theme_url("img/muff-cat.png")?>" height="116" alt="">
+      <img src="<?=theme_url($cat)?>" height="116" alt="">
       <div class="container">
         
         <nav class="navbar navbar-static-bottom" role="navigation">
-          <p class="text-center">Powered by <a href="#" class="navbar-link">Muffin PHP </a>&copy; by <a href="#" class="navbar-link">Alvaro Aranda Muñoz</a></p>
+          <?=$footer?>
         </nav>
       </div>
     </footer>
     
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-    <script>
-      console.log('Click count:');
-      $("#btn-download").hover(function() { $(this).attr("src", "<?=theme_url("img/btn-download-hover.png")?>")}, function() { $(this).attr("src", "<?=theme_url("img/btn-download.png")?>")});
+    <script> //Handles the hover of the Download button
+      $("#btn-download").hover(function() { $(this).attr("src", "<?=theme_url($btn_download_hover)?>")}, function() { $(this).attr("src", "<?=theme_url($btn_download)?>")});
     </script>
   </body>
 </html>
