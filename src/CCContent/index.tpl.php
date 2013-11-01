@@ -12,18 +12,8 @@
   <p>No content exists.</p>
 <?php endif;?>
 
-<!-- <div style="background:#d2e9f4;">
-<h2>CText validation</h2>
-<h3>Clickable Test</h3>
-<p><?=$testData['clickable']?></p>
-<h3>Markdown Test</h3>
-<p><?=$testData['markdown']?></p>
-<h3>Smartpants Test</h3>
-<p><?=$testData['smartpants']?></p>
-</div> -->
 <h2>Actions</h2>
 <ul>
-  <li><a href='<?=create_url('content/init')?>'>Init database, create tables and sample content</a>
   <li><a href='<?=create_url('content/create')?>'>Create new content</a>
   <li><a href='<?=create_url('blog')?>'>View as blog</a>
 </ul>
