@@ -115,6 +115,15 @@ $muff->config['theme'] = array(
   ),
 );
 
+/**
+* Define a routing table for urls.
+*
+* Route custom urls to a defined controller/method/arguments
+*/
+$muff->config['routing'] = array(
+  'home' => array('enabled' => true, 'url' => 'index/index'),
+);
+
 /** 
 * Set a base_url to use another than the default calculated 
 */ 

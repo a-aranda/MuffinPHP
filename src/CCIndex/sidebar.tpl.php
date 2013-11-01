@@ -1,4 +1,21 @@
-<h3><b class="muffin"></b>About MuffinPHP</h3>
-<p>MuffinPHP is a php framework which offers a basic structure with some functionality for developing web applications.</p>
-<h3><b class="muffin"></b>About Me</h3>
-<p>My name is Álvaro Aranda and I'm a 24 years old guy from Madrid, Spain. In the past years I have been studying interaction design and user experience in Sweden, and I love everything that is related to design and the web. I hope this course will help me in improving my php skills.</p>
+<div class='box'>
+<h4><b class="muffin"></b>Controllers and methods</h4>
+
+<p>The following controllers exists. You enable and disable controllers in 
+<code>site/config.php</code>.</p>
+
+<ul>
+<?php foreach($controllers as $key => $val): ?>
+  <li><a href='<?=create_url($key)?>'><?=$key?></a></li>
+
+  <?php if(!empty($val)): ?>
+  <ul>
+  <?php foreach($val as $method): ?>
+    <li><a href='<?=create_url($key, $method)?>'><?=$method?></a></li> 
+  <?php endforeach; ?>                
+  </ul>
+  <?php endif; ?>
+  
+<?php endforeach; ?>                
+</ul>
+</div>

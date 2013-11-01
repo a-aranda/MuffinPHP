@@ -55,7 +55,7 @@ public function FrontControllerRoute() {
   // Step 1
   // Take current url and divide it in controller, method and parameters
   $this->request = new CRequest(); 
-  $this->request->Init($this->config['base_url']); 
+  $this->request->Init($this->config['base_url'], $this->config['routing']); 
   $controller = $this->request->controller; 
   $method = $this->request->method; 
   $method = str_replace(array('_', '-'), '', $method); //accepts - and _ in links
