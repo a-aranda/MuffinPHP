@@ -77,7 +77,11 @@
 
             <div id='outer-wrap-main'>
               <div id='inner-wrap-main'>
-                <div id='primary'><?=get_messages_from_session()?><?=@$main?><?=render_views('primary')?><?=render_views()?></div>
+                <div id='primary'>
+                  <?php if(region_has_content('navbar')): ?>
+                    <div id='navbar'><?=render_views('navbar')?></div>
+                  <?php endif; ?>
+                  <?=get_messages_from_session()?><?=@$main?><?=render_views('primary')?><?=render_views()?></div>
               </div>
             </div>
 
@@ -91,8 +95,8 @@
             </div>
           <?php endif; ?>
         </div>
-        <div class="col-sm-3 col-md-offset-1 sidebar">
-          <div id='sidebar'><?=render_views('sidebar')?></div>
+        <div class="col-sm-3 col-md-offset-1">
+          <?=render_views('sidebar')?>
         </div>
       </div>
     </div>

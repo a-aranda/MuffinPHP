@@ -87,8 +87,8 @@ public function AddString($string, $variables=array(), $region='default') {
     foreach($this->views[$region] as $view) {
      
       switch($view['type']) {
-        case 'include': extract($view['variables']); include($view['file']); break;
-        case 'string':  extract($view['variables']); echo $view['string']; break;
+        case 'include': if(isset($view['variables'])) extract($view['variables']); include($view['file']); break;
+        case 'string':  if(isset($view['variables'])) extract($view['variables']); echo $view['string']; break;
       }
     }
   }

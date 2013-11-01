@@ -94,16 +94,16 @@ $muff->config['controllers'] = array(
 $muff->config['theme'] = array(
   'path'            => 'site/theme/mytheme',
   'parent'          => 'themes/muffin-core',
-  'name'            => 'muffin-core',            // The name of the theme in the theme directory
   'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
   'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
   // A list of valid theme regions
-  'regions' => array('flash','featured-first','featured-middle','featured-last',
+  'regions' => array('navbar','flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
     'footer',
   ),
   // Add static entries for use in the template file. 
+  'menu_to_region' => array('navbar'=>'navbar'),
   'data' => array(
     'header' => 'MuffinPHP',
     'slogan' => 'This is a prebaked framework that makes building web applications easier and faster.',
@@ -114,6 +114,21 @@ $muff->config['theme'] = array(
     'hr' => 'img/hr-muff-divider.png',
     'cat' => 'img/muff-cat.png',
     'footer' => '<p class="text-center">Powered by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom06-extra/muffinphp/" class="navbar-link">Muffin PHP </a>&copy; by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" class="navbar-link">Alvaro Aranda Muñoz</a></p>',
+  ),
+);
+
+/**
+* Define menus.
+*
+* Create hardcoded menus and map them to a theme region through $ly->config['theme'].
+*/
+$muff->config['menus'] = array(
+ 'navbar' => array(
+    'home'      => array('label'=>'Home', 'url'=>'home'),
+    'modules'   => array('label'=>'Modules', 'url'=>'module'),
+    'content'   => array('label'=>'Content', 'url'=>'content'),
+    'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
+    'blog'      => array('label'=>'Blog', 'url'=>'blog'),
   ),
 );
 

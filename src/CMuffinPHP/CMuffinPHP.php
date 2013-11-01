@@ -122,6 +122,13 @@ public function FrontControllerRoute() {
     $this->themeUrl = $themeUrl;
     $this->themeParentUrl = $parentUrl;
 
+    // Map menu to region if defined
+    if(is_array($this->config['theme']['menu_to_region'])) {
+      foreach($this->config['theme']['menu_to_region'] as $key => $val) {
+        $this->views->AddString($this->DrawMenu($key), null, $val);
+      }
+    }
+
     // Include the global functions.php and the functions.php that are part of the theme
     $muff = &$this;
     include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
@@ -138,7 +145,7 @@ public function FrontControllerRoute() {
       include "{$themePath}/functions.php";
     }
 
-    
+
     // Extract $muff->data and $muff->view->data to own variables and handover to the template file
     extract($this->data);     
     extract($this->views->GetData());
@@ -222,17 +229,16 @@ public function FrontControllerRoute() {
   }
 
 
-        /**
-         * Create an url. Wrapper and shorter method for $this->request->CreateUrl()
-         *
-         * @param $urlOrController string the relative url or the controller
-         * @param $method string the method to use, $url is then the controller or empty for current
-         * @param $arguments string the extra arguments to send to the method
-         */
-        public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
+  /**
+   * Create an url. Wrapper and shorter method for $this->request->CreateUrl()
+   *
+   * @param $urlOrController string the relative url or the controller
+   * @param $method string the method to use, $url is then the controller or empty for current
+   * @param $arguments string the extra arguments to send to the method
+   */
+  public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
     return $this->request->CreateUrl($urlOrController, $method, $arguments);
   }
-
 
   /**
    * Draw HTML for a menu defined in $ly->config['menus'].
@@ -243,13 +249,15 @@ public function FrontControllerRoute() {
   public function DrawMenu($menu) {
     $items = null;
     if(isset($this->config['menus'][$menu])) {
+      $items .= "<center><div class='btn-group'>";
       foreach($this->config['menus'][$menu] as $val) {
         $selected = null;
         if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
           $selected = " class='selected'";
         }
-        $items .= "<li><a {$selected} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
+        $items .= "<a {$selected} href='" . $this->CreateUrl($val['url']) . "'><button type='button' class='btn btn-danger'>{$val['label']}</button></a>\n";
       }
+        $items .= "</div></center>";  
     } else {
       throw new Exception('No such menu.');
     }     
