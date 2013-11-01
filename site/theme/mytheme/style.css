@@ -1,0 +1,8 @@
+/** 
+* Description: Sample theme for site which extends the Lydia grid-theme.
+*/
+@import url(../../../themes/muffin-core/style.css);
+
+a{
+	color: blue;
+}

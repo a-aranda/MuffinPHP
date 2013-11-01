@@ -10,7 +10,7 @@
     <title><?=$title?></title>
 
     <!-- Bootstrap core CSS -->
-    <link rel='stylesheet' href='<?=$stylesheet?>'/>
+    <link rel='stylesheet' href='<?=theme_url($stylesheet)?>'/>
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Bitter:400,700' rel='stylesheet' type='text/css'>
 

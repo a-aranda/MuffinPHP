@@ -92,8 +92,10 @@ $muff->config['controllers'] = array(
 * Settings for the theme.
 */
 $muff->config['theme'] = array(
+  'path'            => 'site/theme/mytheme',
+  'parent'          => 'themes/muffin-core',
   'name'            => 'muffin-core',            // The name of the theme in the theme directory
-  'stylesheet'      => 'style.php',       // Main stylesheet to include in template files
+  'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
   'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
   // A list of valid theme regions
   'regions' => array('flash','featured-first','featured-middle','featured-last',

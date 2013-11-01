@@ -103,29 +103,57 @@ public function FrontControllerRoute() {
      // Is theme enabled?
     if(!isset($this->config['theme'])) { return; }
     
-    // Get the paths and settings for the theme
-    $themeName  = $this->config['theme']['name'];
-    $themePath  = MUFFINPHP_INSTALL_PATH . "/themes/{$themeName}";
-    $themeUrl   = $this->request->base_url . "themes/{$themeName}";
+    // Get the paths and settings for the theme, look in the site dir first
+    $themePath  = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['path'];
+    $themeUrl   = $this->request->base_url . $this->config['theme']['path'];
+
+    // Is there a parent theme?
+    $parentPath = null;
+    $parentUrl = null;
+    if(isset($this->config['theme']['parent'])) {
+      $parentPath = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['parent'];
+      $parentUrl  = $this->request->base_url . $this->config['theme']['parent'];
+    }
     
-    // Add stylesheet path to the $muff->data array
-    $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
+     // Add stylesheet name to the $ly->data array
+    $this->data['stylesheet'] = $this->config['theme']['stylesheet'];
+    
+    // Make the theme urls available as part of $ly
+    $this->themeUrl = $themeUrl;
+    $this->themeParentUrl = $parentUrl;
 
     // Include the global functions.php and the functions.php that are part of the theme
     $muff = &$this;
     include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
-    $functionsPath = "{$themePath}/functions.php";
-    if(is_file($functionsPath)) { //it might not exist because is not the core of the framework
-      include $functionsPath;
+
+    // Then the functions.php from the parent theme
+    if($parentPath) {
+      if(is_file("{$parentPath}/functions.php")) {
+        include "{$parentPath}/functions.php";
+      }
     }
+
+    // And last the current theme functions.php
+    if(is_file("{$themePath}/functions.php")) {
+      include "{$themePath}/functions.php";
+    }
+
+    
     // Extract $muff->data and $muff->view->data to own variables and handover to the template file
     extract($this->data);     
     extract($this->views->GetData());
     if(isset($this->config['theme']['data'])) {
       extract($this->config['theme']['data']);
     }  
-    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php'; 
-    include("{$themePath}/{$templateFile}"); 
+    // Execute the template file
+    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+    if(is_file("{$themePath}/{$templateFile}")) {
+      include("{$themePath}/{$templateFile}");
+    } else if(is_file("{$parentPath}/{$templateFile}")) {
+      include("{$parentPath}/{$templateFile}");
+    } else {
+      throw new Exception('No such template file.');
+    }
   }
 
    /**
