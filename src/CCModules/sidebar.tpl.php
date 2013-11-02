@@ -1,6 +1,6 @@
 <div class='sidebar'>
 <h4><b class="muffin"></b>All modules</h4>
-<p>All Lydia modules.</p>
+<p>All MuffinPHP modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
   <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
@@ -10,11 +10,11 @@
 
 
 
-<h4>Lydia core</h4>
-<p>Lydia core modules.</p>
+<h4>MuffinPHP core</h4>
+<p>MuffinPHP core modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
-  <?php if($module['isLydiaCore']): ?>
+  <?php if($module['isMuffinPHPCore']): ?>
   <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
@@ -23,11 +23,11 @@
 
 
 
-<h4>Lydia CMF</h4>
-<p>Lydia Content Management Framework (CMF) modules.</p>
+<h4>MuffinPHP CMF</h4>
+<p>MuffinPHP Content Management Framework (CMF) modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
-  <?php if($module['isLydiaCMF']): ?>
+  <?php if($module['isMuffinPHPCMF']): ?>
   <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>
@@ -87,10 +87,10 @@
 
 
 <h4>More modules</h4>
-<p>Modules that does not implement any specific Lydia interface.</p>
+<p>Modules that does not implement any specific MuffinPHP interface.</p>
 <ul>
 <?php foreach($modules as $module): ?>
-  <?php if(!($module['isController'] || $module['isLydiaCore'] || $module['isLydiaCMF'])): ?>
+  <?php if(!($module['isController'] || $module['isMuffinPHPCore'] || $module['isMuffinPHPCMF'])): ?>
   <li><a href='<?=create_url("module/view/{$module['name']}")?>'><?=$module['name']?></a></li>
   <?php endif; ?>
 <?php endforeach; ?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* A model for managing Lydia modules.
+* A model for managing MuffinPHP modules.
 * 
 * @package MuffinPHP Core
 */
@@ -11,8 +11,8 @@ class CMModules extends CObject {
    /**
    * Properties
    */
-  private $lydiaCoreModules = array('CLydia', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject');
-  private $lydiaCMFModules = array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier');
+  private $MuffinPHPCoreModules = array('CMuffinPHP', 'CDatabase', 'CRequest', 'CViewContainer', 'CSession', 'CObject');
+  private $MuffinPHPCMFModules = array('CForm', 'CCPage', 'CCBlog', 'CMUser', 'CCUser', 'CMContent', 'CCContent', 'CFormUserLogin', 'CFormUserProfile', 'CFormUserCreate', 'CFormContent', 'CHTMLPurifier');
 
 
   /**
@@ -109,8 +109,8 @@ class CMModules extends CObject {
       $details['isModel']       = preg_match('/^CM[A-Z]/', $rc->name);
       $details['hasSQL']        = $rc->implementsInterface('IHasSQL');
       $details['isManageable']  = $rc->implementsInterface('IModule');
-      $details['isLydiaCore']   = in_array($rc->name, $this->lydiaCoreModules);
-      $details['isLydiaCMF']    = in_array($rc->name, $this->lydiaCMFModules);
+      $details['isMuffinPHPCore']   = in_array($rc->name, $this->MuffinPHPCoreModules);
+      $details['isMuffinPHPCMF']    = in_array($rc->name, $this->MuffinPHPCMFModules);
       $details['publicMethods']     = $rc->getMethods(ReflectionMethod::IS_PUBLIC);
       $details['protectedMethods']  = $rc->getMethods(ReflectionMethod::IS_PROTECTED);
       $details['privateMethods']    = $rc->getMethods(ReflectionMethod::IS_PRIVATE);
