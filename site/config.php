@@ -86,6 +86,7 @@ $muff->config['controllers'] = array(
 'blog'      => array('enabled' => true,'class' => 'CCBlog'),
 'theme'     => array('enabled' => true,'class' => 'CCTheme'),
 'module'   => array('enabled' => true,'class' => 'CCModules'),
+'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
 );
 
 /**
