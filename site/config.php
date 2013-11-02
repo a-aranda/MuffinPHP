@@ -104,7 +104,7 @@ $muff->config['theme'] = array(
     'footer',
   ),
   // Add static entries for use in the template file. 
-  'menu_to_region' => array('navbar'=>'navbar'),
+  'menu_to_region' => array('my-navbar'=>'navbar'),
   'data' => array(
     'header' => 'MuffinPHP',
     'slogan' => 'This is a prebaked framework that makes building web applications easier and faster.',
@@ -130,6 +130,11 @@ $muff->config['menus'] = array(
     'content'   => array('label'=>'Content', 'url'=>'content'),
     'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
     'blog'      => array('label'=>'Blog', 'url'=>'blog'),
+  ),
+ 'my-navbar' => array(
+    'home'      => array('label'=>'About Me', 'url'=>'my'),
+    'blog'      => array('label'=>'My Blog', 'url'=>'my/blog'),
+    'guestbook' => array('label'=>'Guestbook', 'url'=>'my/guestbook'),
   ),
 );
 
