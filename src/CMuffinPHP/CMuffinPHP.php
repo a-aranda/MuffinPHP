@@ -6,18 +6,18 @@
 */
 class CMuffinPHP implements ISingleton {
 
-   private static $instance = null;
+ private static $instance = null;
 
-   /**
-    * Singleton pattern. Get the instance of the latest created object or create a new one.
-    * @return CMuffinPHP The instance of this class.
-    */
-   public static function Instance() {
-      if(self::$instance == null) {
-         self::$instance = new CMuffinPHP();
-      }
-      return self::$instance;
-   }
+/**
+* Singleton pattern. Get the instance of the latest created object or create a new one.
+* @return CMuffinPHP The instance of this class.
+*/
+public static function Instance() {
+  if(self::$instance == null) {
+     self::$instance = new CMuffinPHP();
+  }
+  return self::$instance;
+}
 
 /**
 * Constructor
@@ -93,175 +93,179 @@ public function FrontControllerRoute() {
   }
 
 }
-  /**
-    * ThemeEngineRender, renders the reply of the request to HTML or whatever.
-    */
-  public function ThemeEngineRender() {
-    // Save to session before output anything
-    $this->session->StoreInSession();
 
-     // Is theme enabled?
-    if(!isset($this->config['theme'])) { return; }
-    
-    // Get the paths and settings for the theme, look in the site dir first
-    $themePath  = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['path'];
-    $themeUrl   = $this->request->base_url . $this->config['theme']['path'];
+/**
+* ThemeEngineRender, renders the reply of the request to HTML or whatever.
+*/
+public function ThemeEngineRender() {
+  
+  // Save to session before output anything
+  $this->session->StoreInSession();
 
-    // Is there a parent theme?
-    $parentPath = null;
-    $parentUrl = null;
-    if(isset($this->config['theme']['parent'])) {
-      $parentPath = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['parent'];
-      $parentUrl  = $this->request->base_url . $this->config['theme']['parent'];
-    }
-    
-     // Add stylesheet name to the $ly->data array
-    $this->data['stylesheet'] = $this->config['theme']['stylesheet'];
-    
-    // Make the theme urls available as part of $ly
-    $this->themeUrl = $themeUrl;
-    $this->themeParentUrl = $parentUrl;
+   // Is theme enabled?
+  if(!isset($this->config['theme'])) { return; }
+  
+  // Get the paths and settings for the theme, look in the site dir first
+  $themePath  = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['path'];
+  $themeUrl   = $this->request->base_url . $this->config['theme']['path'];
 
-    // Map menu to region if defined
-    if(is_array($this->config['theme']['menu_to_region'])) {
-      foreach($this->config['theme']['menu_to_region'] as $key => $val) {
-        $this->views->AddString($this->DrawMenu($key), null, $val);
-      }
-    }
+  // Is there a parent theme?
+  $parentPath = null;
+  $parentUrl = null;
+  if(isset($this->config['theme']['parent'])) {
+    $parentPath = MUFFINPHP_INSTALL_PATH . '/' . $this->config['theme']['parent'];
+    $parentUrl  = $this->request->base_url . $this->config['theme']['parent'];
+  }
+  
+   // Add stylesheet name to the $muff->data array
+  $this->data['stylesheet'] = $this->config['theme']['stylesheet'];
+  
+  // Make the theme urls available as part of $muff
+  $this->themeUrl = $themeUrl;
+  $this->themeParentUrl = $parentUrl;
 
-    // Include the global functions.php and the functions.php that are part of the theme
-    $muff = &$this;
-    include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
-
-    // Then the functions.php from the parent theme
-    if($parentPath) {
-      if(is_file("{$parentPath}/functions.php")) {
-        include "{$parentPath}/functions.php";
-      }
-    }
-
-    // And last the current theme functions.php
-    if(is_file("{$themePath}/functions.php")) {
-      include "{$themePath}/functions.php";
-    }
-
-
-    // Extract $muff->data and $muff->view->data to own variables and handover to the template file
-    extract($this->data);     
-    extract($this->views->GetData());
-    if(isset($this->config['theme']['data'])) {
-      extract($this->config['theme']['data']);
-    }  
-    // Execute the template file
-    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
-    if(is_file("{$themePath}/{$templateFile}")) {
-      include("{$themePath}/{$templateFile}");
-    } else if(is_file("{$parentPath}/{$templateFile}")) {
-      include("{$parentPath}/{$templateFile}");
-    } else {
-      throw new Exception('No such template file.');
+  // Map menu to region if defined
+  if(is_array($this->config['theme']['menu_to_region'])) {
+    foreach($this->config['theme']['menu_to_region'] as $key => $val) {
+      $this->views->AddString($this->DrawMenu($key), null, $val);
     }
   }
 
-   /**
-         * Redirect to another url and store the session, all redirects should use this method.
-   *
-         * @param $url string the relative url or the controller
-         * @param $method string the method to use, $url is then the controller or empty for current controller
-         * @param $arguments string the extra arguments to send to the method
-         */
-        public function RedirectTo($urlOrController=null, $method=null, $arguments=null) {
-    if(isset($this->config['debug']['db-num-queries']) && $this->config['debug']['db-num-queries'] && isset($this->db)) {
-      $this->session->SetFlash('database_numQueries', $this->db->GetNumQueries());
-    }    
-    if(isset($this->config['debug']['db-queries']) && $this->config['debug']['db-queries'] && isset($this->db)) {
-      $this->session->SetFlash('database_queries', $this->db->GetQueries());
-    }    
-    if(isset($this->config['debug']['timer']) && $this->config['debug']['timer']) {
-            $this->session->SetFlash('timer', $this->timer);
-    }    
-    $this->session->StoreInSession();
-    header('Location: ' . $this->request->CreateUrl($urlOrController, $method, $arguments));
-    exit;
+  // Include the global functions.php and the functions.php that are part of the theme
+  $muff = &$this;
+  include(MUFFINPHP_INSTALL_PATH . '/themes/functions.php');
+
+  // Then the functions.php from the parent theme
+  if($parentPath) {
+    if(is_file("{$parentPath}/functions.php")) {
+      include "{$parentPath}/functions.php";
+    }
+  }
+
+  // And last the current theme functions.php
+  if(is_file("{$themePath}/functions.php")) {
+    include "{$themePath}/functions.php";
   }
 
 
-        /**
-         * Redirect to a method within the current controller. Defaults to index-method. Uses RedirectTo().
-         *
-         * @param string method name the method, default is index method.
-         * @param $arguments string the extra arguments to send to the method
-         */
-        public function RedirectToController($method=null, $arguments=null) {
+  // Extract $muff->data and $muff->view->data to own variables and handover to the template file
+  extract($this->data);     
+  extract($this->views->GetData());
+  if(isset($this->config['theme']['data'])) {
+    extract($this->config['theme']['data']);
+  }  
+  // Execute the template file
+  $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+  if(is_file("{$themePath}/{$templateFile}")) {
+    include("{$themePath}/{$templateFile}");
+  } else if(is_file("{$parentPath}/{$templateFile}")) {
+    include("{$parentPath}/{$templateFile}");
+  } else {
+    throw new Exception('No such template file.');
+  }
+}
+
+/**
+* Redirect to another url and store the session, all redirects should use this method.
+*
+* @param $url string the relative url or the controller
+* @param $method string the method to use, $url is then the controller or empty for current controller
+* @param $arguments string the extra arguments to send to the method
+*/
+public function RedirectTo($urlOrController=null, $method=null, $arguments=null) {
+  if(isset($this->config['debug']['db-num-queries']) && $this->config['debug']['db-num-queries'] && isset($this->db)) {
+    $this->session->SetFlash('database_numQueries', $this->db->GetNumQueries());
+  }    
+  if(isset($this->config['debug']['db-queries']) && $this->config['debug']['db-queries'] && isset($this->db)) {
+    $this->session->SetFlash('database_queries', $this->db->GetQueries());
+  }    
+  if(isset($this->config['debug']['timer']) && $this->config['debug']['timer']) {
+          $this->session->SetFlash('timer', $this->timer);
+  }    
+  $this->session->StoreInSession();
+  header('Location: ' . $this->request->CreateUrl($urlOrController, $method, $arguments));
+  exit;
+}
+
+
+/**
+ * Redirect to a method within the current controller. Defaults to index-method. Uses RedirectTo().
+ *
+ * @param string method name the method, default is index method.
+ * @param $arguments string the extra arguments to send to the method
+ */
+public function RedirectToController($method=null, $arguments=null) {
     $this->RedirectTo($this->request->controller, $method, $arguments);
+}
+
+
+/**
+ * Redirect to a controller and method. Uses RedirectTo().
+ *
+ * @param string controller name the controller or null for current controller.
+ * @param string method name the method, default is current method.
+ * @param $arguments string the extra arguments to send to the method
+ */
+public function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
+  $controller = is_null($controller) ? $this->request->controller : null;
+  $method = is_null($method) ? $this->request->method : null;          
+  $this->RedirectTo($this->request->CreateUrl($controller, $method, $arguments));
+}
+
+
+/**
+* Save a message in the session. Uses $this->session->AddMessage()
+*
+* @param $type string the type of message, for example: notice, info, success, warning, error.
+* @param $message string the message.
+* @param $alternative string the message if the $type is set to false, defaults to null.
+*/
+public function AddMessage($type, $message, $alternative=null) {
+  if($type === false) {
+    $type = 'error';
+    $message = $alternative;
+  } else if($type === true) {
+    $type = 'success';
   }
+  $this->session->AddMessage($type, $message);
+}
 
 
-        /**
-         * Redirect to a controller and method. Uses RedirectTo().
-         *
-         * @param string controller name the controller or null for current controller.
-         * @param string method name the method, default is current method.
-         * @param $arguments string the extra arguments to send to the method
-         */
-        public function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
-          $controller = is_null($controller) ? $this->request->controller : null;
-          $method = is_null($method) ? $this->request->method : null;          
-    $this->RedirectTo($this->request->CreateUrl($controller, $method, $arguments));
-  }
+/**
+* Create an url. Wrapper and shorter method for $this->request->CreateUrl()
+*
+* @param $urlOrController string the relative url or the controller
+* @param $method string the method to use, $url is then the controller or empty for current
+* @param $arguments string the extra arguments to send to the method
+*/
+public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
+  return $this->request->CreateUrl($urlOrController, $method, $arguments);
+}
 
-
-        /**
-         * Save a message in the session. Uses $this->session->AddMessage()
-         *
-   * @param $type string the type of message, for example: notice, info, success, warning, error.
-   * @param $message string the message.
-   * @param $alternative string the message if the $type is set to false, defaults to null.
-   */
-  public function AddMessage($type, $message, $alternative=null) {
-    if($type === false) {
-      $type = 'error';
-      $message = $alternative;
-    } else if($type === true) {
-      $type = 'success';
-    }
-    $this->session->AddMessage($type, $message);
-  }
-
-
-  /**
-   * Create an url. Wrapper and shorter method for $this->request->CreateUrl()
-   *
-   * @param $urlOrController string the relative url or the controller
-   * @param $method string the method to use, $url is then the controller or empty for current
-   * @param $arguments string the extra arguments to send to the method
-   */
-  public function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
-    return $this->request->CreateUrl($urlOrController, $method, $arguments);
-  }
-
-  /**
-   * Draw HTML for a menu defined in $ly->config['menus'].
-   *
-   * @param $menu string then key to the menu in the config-array.
-   * @returns string with the HTML representing the menu.
-   */
-  public function DrawMenu($menu) {
-    $items = null;
-    if(isset($this->config['menus'][$menu])) {
-      $items .= "<center><div class='btn-group'>";
-      foreach($this->config['menus'][$menu] as $val) {
-        $selected = null;
-        if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
-          $selected = " class='selected'";
-        }
+/**
+* Draw HTML for a menu defined in $muff->config['menus'].
+*
+* @param $menu string then key to the menu in the config-array.
+* @returns string with the HTML representing the menu.
+*/
+public function DrawMenu($menu) {
+  $items = null;
+  if(isset($this->config['menus'][$menu])) {
+    $items .= "<center><div class='btn-group'>";
+    foreach($this->config['menus'][$menu] as $val) {
+      $selected = null;
+      if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
         $items .= "<a {$selected} href='" . $this->CreateUrl($val['url']) . "'><button type='button' class='btn btn-danger'>{$val['label']}</button></a>\n";
       }
-        $items .= "</div></center>";  
-    } else {
-      throw new Exception('No such menu.');
-    }     
-    return "<ul class='menu {$menu}'>\n{$items}</ul>\n";
-  }
+      else { //selected vs. not-selected buttons
+        $items .= "<a {$selected} href='" . $this->CreateUrl($val['url']) . "'><button type='button' class='btn btn-danger btn-sm'>{$val['label']}</button></a>\n";
+      }
+    }
+      $items .= "</div></center>";  
+  } else {
+    throw new Exception('No such menu.');
+  }     
+  return "<ul class='menu {$menu}'>\n{$items}</ul>\n";
+}
 
 }
