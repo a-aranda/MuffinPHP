@@ -1,0 +1,29 @@
+touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/a-aranda/MuffinPHP
+git push -u origin master
+
+For tags:
+
+%git tag -a v0.1.1 -m "Correcting warning in CRequest::Init() after testing on PHP < 5.3"
+%git push --tags
+Counting objects: 1, done.
+Writing objects: 100% (1/1), 208 bytes, done.
+Total 1 (delta 0), reused 0 (delta 0)
+To git@github.com:mosbth/lydia.git
+* [new tag]         v0.1.1 -> v0.1.1
+%
+
+For CRLF in mac:
+
+git config --get core.autocrlf
+false
+
+git --version
+git version 1.8.0.msysgit.0
+
+It must be in false!
+
+git config core.autocrlf false
