@@ -76,8 +76,9 @@ $muff->config['hashing_algorithm'] = 'sha1salt';
 * which is called in the frontcontroller phase from index.php. 
 */ 
 $muff->config['controllers'] = array( 
-'index' => array('enabled' => true,'class' => 'CCIndex'), 
+'index'     => array('enabled' => true,'class' => 'CCIndex'), 
 'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+'muff-config' => array('enabled' => true,'class' => 'CCMuffConfig'),
 'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 'user'      => array('enabled' => true,'class' => 'CCUser'),
 'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
@@ -85,7 +86,7 @@ $muff->config['controllers'] = array(
 'page'      => array('enabled' => true,'class' => 'CCPage'),
 'blog'      => array('enabled' => true,'class' => 'CCBlog'),
 'theme'     => array('enabled' => true,'class' => 'CCTheme'),
-'module'   => array('enabled' => true,'class' => 'CCModules'),
+'module'    => array('enabled' => true,'class' => 'CCModules'),
 'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
 );
 
