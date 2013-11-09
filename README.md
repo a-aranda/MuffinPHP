@@ -1,4 +1,4 @@
-Welcome to MuffinPHP Guide.
+Welcome to MuffinPHP Guide
 =========
 
 MuffinPHP is a PHP framework that has been realized for the course PHPMVC at BTH university (Karlskrona). The aim of the projet was to to learn advanced php programming with a deeper sense of what a Model View Controller is. Also, during this course I have explored a wide array of external libraries, which includes: HTMLPurifier, PHP Markdown, PHP SmartyPants,PHP Typographer, LessPHP, SimplePie and Semantic Grid System. 
