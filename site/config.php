@@ -122,7 +122,7 @@ $muff->config['theme'] = array(
 /**
 * Define menus.
 *
-* Create hardcoded menus and map them to a theme region through $ly->config['theme'].
+* Create hardcoded menus and map them to a theme region through $muff->config['theme'].
 */
 $muff->config['menus'] = array(
  'navbar' => array(
