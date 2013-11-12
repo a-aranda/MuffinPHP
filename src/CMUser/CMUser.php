@@ -51,6 +51,10 @@ public static function SQL($key=null) {
     'insert into group'       => 'INSERT INTO Groups (acronym,name) VALUES (?,?);',
     'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
     'check user password'     => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
+    'find user id'            => 'SELECT * FROM User WHERE id=?;',
+    'delete user id'          => 'DELETE FROM User where id=?;',
+    'show users'              => 'SELECT * FROM User;',
+    'show groups'              => 'SELECT * FROM Groups;',
     'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
     'update profile'          => "UPDATE User SET name=?, email=?, updated=datetime('now') WHERE id=?;",
     'update password'         => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now') WHERE id=?;",
@@ -60,37 +64,6 @@ public static function SQL($key=null) {
   }
   return $queries[$key];
 }
-
-
-// /**
-//  * Init the database and create appropriate tables.
-//  */
-// public function Init() {
-//   try {
-//     $this->db->ExecuteQuery(self::SQL('drop table user2group'));
-//     $this->db->ExecuteQuery(self::SQL('drop table group'));
-//     $this->db->ExecuteQuery(self::SQL('drop table user'));
-//     $this->db->ExecuteQuery(self::SQL('create table user'));
-//     $this->db->ExecuteQuery(self::SQL('create table group'));
-//     $this->db->ExecuteQuery(self::SQL('create table user2group'));
-//     $password = $this->CreatePassword('root');
-//     $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
-//     $idRootUser = $this->db->LastInsertId();
-//     $password = $this->CreatePassword('doe');
-//     $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
-//     $idDoeUser = $this->db->LastInsertId();
-//     $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
-//     $idAdminGroup = $this->db->LastInsertId();
-//     $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
-//     $idUserGroup = $this->db->LastInsertId();
-//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
-//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
-//     $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
-//     $this->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
-//   } catch(Exception$e) {
-//     die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
-//   }
-// }
 
 /**
  * Implementing interface IModule. Manage install/update/deinstall and equal actions.
@@ -131,6 +104,23 @@ public function Manage($action=null) {
       throw new Exception('Unsupported action for this module.');
     break;
   }
+}
+
+public function showUsers(){
+  return $users = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('show users'));
+}
+
+public function findUserWithID($id){
+  return $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('find user id'), array($id));
+}
+
+public function deleteUserWithID($id){
+  echo "paso por aqui";
+  return $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('delete user id'), array($id));
+}
+
+public function showGroups(){
+  return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('show groups'));
 }
 
 

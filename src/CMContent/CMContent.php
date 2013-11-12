@@ -126,7 +126,6 @@ public function Delete() {
   if($this['id']) {
     $this->db->ExecuteQuery(self::SQL('update content as deleted'), array($this['id']));
   }
-  echo "hello";
   $rowcount = $this->db->RowCount();
   if($rowcount) {
     $this->AddMessage('success', "Successfully set content '" . htmlEnt($this['key']) . "' as deleted.");

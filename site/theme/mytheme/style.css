@@ -3,6 +3,11 @@
 */
 @import url(../../../themes/muffin-core/style.css);
 
-/*a{
-	color: blue;
-}*/
+table{
+	text-align:center;
+	width:800px;
+}
+
+thead th{
+	text-align: center;
+}

@@ -27,19 +27,53 @@ public function Index() {
 /**
  * View and edit user profile.
  */
-public function Profile() {    
+public function Profile() {   
+  $user = new CMUser(); 
   $form = new CFormUserProfile($this, $this->user);
   if($form->Check() === false) {
     $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
     $this->RedirectToController('profile');
   }
-
   $this->views->SetTitle('User Profile');
   $this->views->AddInclude(__DIR__ . '/profile.tpl.php', array(
     'is_authenticated'=>$this->user['isAuthenticated'], 
     'user'=>$this->user,
     'profile_form'=>$form->GetHTML(),
+    'users'=>$user->showUsers(),
+    'groups' => $user->showGroups(),
+    'allow_create_user' => CMuffinPHP::Instance()->config['create_new_users'],
+    'create_user_url' => $this->CreateUrl(null, 'create'),
+    'create_profile_user_url' => $this->CreateUrl('user','ProfileUser', null),
+    'delete_profile_user_url' => $this->CreateUrl('user','DeleteUser', null),
   ));
+}
+
+/**
+ * View and edit user profile.
+ */
+public function ProfileUser($id) {   
+  $user = new CMUser(); 
+  $u= $user->findUserWithID($id);
+  $form = new CFormUserProfile($this, $u[0] );
+  if($form->Check() === false) {
+    $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+    $this->RedirectToController('profile');
+  }
+  $this->views->SetTitle('User Profile');
+  $this->views->AddInclude(__DIR__ . '/profileUser.tpl.php', array(
+    'user'=>$u,
+    'profile_form'=>$form->GetHTML(),
+    'goBackAdmin' => $this->CreateUrl('user','profile', null),
+  ));
+}
+
+/**
+ * View and edit user profile.
+ */
+public function DeleteUser($id) {   
+  $user = new CMUser(); 
+  $u = $user->deleteUserWithID($id);
+  $this->RedirectToController('profile');
 }
 
 /**

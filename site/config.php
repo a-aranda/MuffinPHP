@@ -91,35 +91,6 @@ $muff->config['controllers'] = array(
 );
 
 /**
-* Settings for the theme.
-*/
-$muff->config['theme'] = array(
-  'path'            => 'site/theme/mytheme',
-  'parent'          => 'themes/muffin-core',
-  'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
-  'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
-  // A list of valid theme regions
-  'regions' => array('navbar','flash','featured-first','featured-middle','featured-last',
-    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
-    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
-    'footer',
-  ),
-  // Add static entries for use in the template file. 
-  'menu_to_region' => array('my-navbar'=>'navbar'),
-  'data' => array(
-    'header' => 'MuffinPHP',
-    'slogan' => 'This is a prebaked framework that makes building web applications easier and faster.',
-    'favicon' => 'favicon.ico',
-    'logo' => 'img/muff.png',
-    'btn_download' => 'img/btn-download.png',
-    'btn_download_hover' => 'img/btn-download-hover.png',
-    'hr' => 'img/hr-muff-divider.png',
-    'cat' => 'img/muff-cat.png',
-    'footer' => '<p class="text-center">Powered by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom06-extra/muffinphp/" class="navbar-link">Muffin PHP </a>&copy; by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" class="navbar-link">Alvaro Aranda Muñoz</a></p>',
-  ),
-);
-
-/**
 * Define menus.
 *
 * Create hardcoded menus and map them to a theme region through $muff->config['theme'].
@@ -161,3 +132,32 @@ $muff->config['base_url'] = null;
 * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
 */
 $muff->config['url_type'] = 1;
+
+/**
+* Settings for the theme.
+*/
+$muff->config['theme'] = array(
+  'path'            => 'site/theme/mytheme',
+  'parent'          => 'themes/muffin-core',
+  'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
+  'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
+  // A list of valid theme regions
+  'regions' => array('navbar','flash','featured-first','featured-middle','featured-last',
+    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
+    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+    'footer',
+  ),
+  // Add static entries for use in the template file. 
+  'menu_to_region' => array('my-navbar'=>'navbar'),
+  'data' => array(
+    'header' => 'MuffinPHP',
+    'slogan' => 'This is a prebaked framework that makes building web applications easier and faster.',
+    'favicon' => 'favicon.ico',
+    'logo' => 'img/muff.png',
+    'btn_download' => 'img/btn-download.png',
+    'btn_download_hover' => 'img/btn-download-hover.png',
+    'hr' => 'img/hr-muff-divider.png',
+    'cat' => 'img/muff-cat.png',
+    'footer' => '<p class="text-center">Powered by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom06-extra/muffinphp/" class="navbar-link">Muffin PHP </a>&copy; by <a href="http://www.student.bth.se/~alar12/phpmvc/kmom01/index.php" class="navbar-link">Alvaro Aranda Muñoz</a></p>',
+  ),
+);
