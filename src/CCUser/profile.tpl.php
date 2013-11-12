@@ -57,21 +57,25 @@
 			      <th>Acronym</th>
 			      <th>Name</th>
 			      <th>Edit</th>
+			      <th>Delete</th>
 			    </tr>
 			  </thead>";
 
 		foreach ($groups as $group){
 			$currentGroup = $edit_group_url."/".$group['id'];
+			$currentDeleteGroup = $delete_group_url."/".$group['id'];
 			echo "<tr>";
 			echo "<td>".$group['acronym']."</td>";
 			echo "<td>".$group['name']."</td>";
 			echo "<td><a href='$currentGroup'>Edit Group</a></td>";
+			echo "<td><a href='$currentDeleteGroup'>Delete Group</a></td>";
 			echo "<tr>"; 
 		}
 		echo "</table><br>";
+		echo "<p>You can create new Groups in the following link:</p>";
+		if($allow_create_user)
+			echo "<a href='$create_group_url'>Create Group</a><br>";
 	}
-
-
 
  ?>
 

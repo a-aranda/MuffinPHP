@@ -54,6 +54,7 @@ public static function SQL($key=null) {
     'find user id'            => 'SELECT * FROM User WHERE id=?;',
     'find group id'           => 'SELECT * FROM Groups WHERE id=?;',
     'delete user id'          => 'DELETE FROM User where id=?;',
+    'delete group id'         => 'DELETE FROM Groups where id=?;',
     'show users'              => 'SELECT * FROM User;',
     'show groups'              => 'SELECT * FROM Groups;',
     'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
@@ -121,8 +122,11 @@ public function findGrupWithID($id){
 }
 
 public function deleteUserWithID($id){
-  echo "paso por aqui";
   return $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('delete user id'), array($id));
+}
+
+public function deleteGroupWithID($id){
+  return $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('delete group id'), array($id));
 }
 
 public function showGroups(){
@@ -269,5 +273,13 @@ return false;
 return true; 
 }
 
+public function GroupCreate($acronym, $name) {  
+$this->db->ExecuteQuery(self::SQL('insert into group'), array($acronym, $name)); 
+if($this->db->RowCount() == 0) { 
+$this->AddMessage('error', "Failed to create grop."); 
+return false; 
+} 
+return true; 
+}
   
 }

@@ -43,8 +43,10 @@ public function Profile() {
     'groups' => $user->showGroups(),
     'allow_create_user' => CMuffinPHP::Instance()->config['create_new_users'],
     'create_user_url' => $this->CreateUrl(null, 'create'),
+    'create_group_url' => $this->CreateUrl(null, 'CreateGroup'),
     'create_profile_user_url' => $this->CreateUrl('user','ProfileUser', null),
     'delete_profile_user_url' => $this->CreateUrl('user','DeleteUser', null),
+    'delete_group_url' => $this->CreateUrl('user','DeleteGroup', null),
     'edit_group_url'          => $this->CreateUrl('user','GroupId', null),
   ));
 }
@@ -95,6 +97,16 @@ public function DeleteUser($id) {
   $u = $user->deleteUserWithID($id);
   $this->RedirectToController('profile');
 }
+
+/**
+ * View and edit user profile.
+ */
+public function DeleteGroup($id) {   
+  $user = new CMUser(); 
+  $user->deleteGroupWithID($id);
+  $this->RedirectToController('profile');
+}
+
 
 /**
  * Change the password.
@@ -192,26 +204,56 @@ $this->views->AddInclude(__DIR__ . '/create.tpl.php', array('form' => $form->Get
 }
 
 /** 
+* Create a new user. 
+*/ 
+public function CreateGroup() { 
+$form = new CFormGroupCreate($this); 
+if($form->Check() === false) { 
+$this->AddMessage('notice', 'You must fill in all values.'); 
+$this->RedirectToController('CreateGroup'); 
+} 
+$this->views->SetTitle('Create Group');
+$this->views->AddInclude(__DIR__ . '/createGroup.tpl.php', array('form' => $form->GetHTML())); 
+}
+
+
+/** 
 * Perform a creation of a user as callback on a submitted form. 
 * 
 * @param $form CForm the form that was submitted 
 */ 
 public function DoCreate($form) { 
 if($form['password']['value'] != $form['password1']['value'] || empty($form['password']['value']) || empty($form['password1']['value'])) { 
-$this->AddMessage('error', 'Password does not match or is empty.'); 
-$this->RedirectToController('create'); 
+  $this->AddMessage('error', 'Password does not match or is empty.'); 
+  $this->RedirectToController('create'); 
 } else if($this->user->Create($form['acronym']['value'], 
-$form['password']['value'], 
-$form['name']['value'], 
-$form['email']['value'] 
-)) { 
-$this->AddMessage('success', "Welcome {$this->user['name']}. Your have successfully created a new account."); 
-$this->user->Login($form['acronym']['value'], $form['password']['value']); 
-$this->RedirectToController('profile'); 
-} else { 
-$this->AddMessage('notice', "Failed to create an account."); 
-$this->RedirectToController('create'); 
-} 
+    $form['password']['value'], 
+    $form['name']['value'], 
+    $form['email']['value'] 
+    )){ 
+      $this->AddMessage('success', "Welcome {$this->user['name']}. Your have successfully created a new account."); 
+      $this->user->Login($form['acronym']['value'], $form['password']['value']); 
+      $this->RedirectToController('profile'); 
+  } else { 
+    $this->AddMessage('notice', "Failed to create an account."); 
+    $this->RedirectToController('create'); 
+  } 
 }
+
+/** 
+* Perform a creation of a user as callback on a submitted form. 
+* 
+* @param $form CForm the form that was submitted 
+*/ 
+public function DoGroupCreate($form) { 
+if($this->user->GroupCreate($form['acronym']['value'], $form['name']['value'])){ 
+      $this->AddMessage('success', "Group successfully created");  
+      $this->RedirectToController('profile'); 
+  } else { 
+    $this->AddMessage('notice', "Failed to create group."); 
+    $this->RedirectToController('createGroup'); 
+  } 
+}
+
 
 } 
