@@ -45,11 +45,12 @@ public function Profile() {
     'create_user_url' => $this->CreateUrl(null, 'create'),
     'create_profile_user_url' => $this->CreateUrl('user','ProfileUser', null),
     'delete_profile_user_url' => $this->CreateUrl('user','DeleteUser', null),
+    'edit_group_url'          => $this->CreateUrl('user','GroupId', null),
   ));
 }
 
 /**
- * View and edit user profile.
+ * View and edit user profile with and id
  */
 public function ProfileUser($id) {   
   $user = new CMUser(); 
@@ -57,11 +58,30 @@ public function ProfileUser($id) {
   $form = new CFormUserProfile($this, $u[0] );
   if($form->Check() === false) {
     $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
-    $this->RedirectToController('profile');
+    $this->RedirectToController('profileUser');
   }
   $this->views->SetTitle('User Profile');
   $this->views->AddInclude(__DIR__ . '/profileUser.tpl.php', array(
     'user'=>$u,
+    'profile_form'=>$form->GetHTML(),
+    'goBackAdmin' => $this->CreateUrl('user','profile', null),
+  ));
+}
+
+/**
+ * View and edit user profile with and id
+ */
+public function GroupId($id) {   
+   $user = new CMUser();
+  //echo "<br><br>This id the id: ".$id ;
+  $g= $user->findGrupWithID($id);
+  $form = new CFormGroups($this, $g[0] );
+  if($form->Check() === false) {
+    $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+    $this->RedirectToController('groupId');
+  }
+  $this->views->SetTitle('Group Managing');
+  $this->views->AddInclude(__DIR__ . '/group.tpl.php', array(
     'profile_form'=>$form->GetHTML(),
     'goBackAdmin' => $this->CreateUrl('user','profile', null),
   ));
@@ -97,6 +117,18 @@ public function DoProfileSave($form) {
   $this->user['email'] = $form['email']['value'];
   $ret = $this->user->Save();
   $this->AddMessage($ret, 'Saved profile.', 'Failed saving profile.');
+  $this->RedirectToController('profile');
+}
+
+/**
+ * Save updates to profile information.
+ */
+public function DoGroupSave($form) {
+  $name = $form['name']['value'];
+  $acronym = $form['acronym']['value'];
+  $id = $form['id']['value'];
+  $ret = $this->user->GroupSave($name, $acronym,$id);
+  $this->AddMessage($ret, 'Saved group.', 'Failed saving profile.');
   $this->RedirectToController('profile');
 }
 

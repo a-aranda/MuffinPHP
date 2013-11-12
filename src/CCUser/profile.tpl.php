@@ -56,13 +56,16 @@
 			    <tr>
 			      <th>Acronym</th>
 			      <th>Name</th>
+			      <th>Edit</th>
 			    </tr>
 			  </thead>";
 
 		foreach ($groups as $group){
+			$currentGroup = $edit_group_url."/".$group['id'];
 			echo "<tr>";
 			echo "<td>".$group['acronym']."</td>";
 			echo "<td>".$group['name']."</td>";
+			echo "<td><a href='$currentGroup'>Edit Group</a></td>";
 			echo "<tr>"; 
 		}
 		echo "</table><br>";

@@ -52,11 +52,13 @@ public static function SQL($key=null) {
     'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
     'check user password'     => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
     'find user id'            => 'SELECT * FROM User WHERE id=?;',
+    'find group id'           => 'SELECT * FROM Groups WHERE id=?;',
     'delete user id'          => 'DELETE FROM User where id=?;',
     'show users'              => 'SELECT * FROM User;',
     'show groups'              => 'SELECT * FROM Groups;',
     'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
     'update profile'          => "UPDATE User SET name=?, email=?, updated=datetime('now') WHERE id=?;",
+    'update group'            => "UPDATE Groups SET name=?, acronym=?, updated=datetime('now') WHERE id=?;",
     'update password'         => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now') WHERE id=?;",
    );
   if(!isset($queries[$key])) {
@@ -112,6 +114,10 @@ public function showUsers(){
 
 public function findUserWithID($id){
   return $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('find user id'), array($id));
+}
+
+public function findGrupWithID($id){
+  return $g = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('find group id'), array($id));
 }
 
 public function deleteUserWithID($id){
@@ -183,6 +189,10 @@ public function Save() {
   return $this->db->RowCount() === 1;
 }
   
+public function GroupSave($name, $acronym,$id){
+  $this->db->ExecuteQuery(self::SQL('update group'), array($name, $acronym, $id));
+  return $this->db->RowCount() === 1;
+}
   
 /**
  * Change user password.
