@@ -30,6 +30,7 @@ public function Index() {
 public function Profile() {   
   $user = new CMUser(); 
   $form = new CFormUserProfile($this, $this->user);
+  $content = new CMContent(); 
   if($form->Check() === false) {
     $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
     $this->RedirectToController('profile');
@@ -46,8 +47,11 @@ public function Profile() {
     'create_group_url' => $this->CreateUrl(null, 'CreateGroup'),
     'create_profile_user_url' => $this->CreateUrl('user','ProfileUser', null),
     'delete_profile_user_url' => $this->CreateUrl('user','DeleteUser', null),
+    'create_user_into_group' => $this->CreateUrl('user','UserIntoGroup', null),
+    'create_user_into_group_delete' => $this->CreateUrl('user','DeleteUserIntoGroup', null),
     'delete_group_url' => $this->CreateUrl('user','DeleteGroup', null),
     'edit_group_url'          => $this->CreateUrl('user','GroupId', null),
+    'contents' => $content->ListAll(),
   ));
 }
 
@@ -88,6 +92,8 @@ public function GroupId($id) {
     'goBackAdmin' => $this->CreateUrl('user','profile', null),
   ));
 }
+
+
 
 /**
  * View and edit user profile.
@@ -216,6 +222,37 @@ $this->views->SetTitle('Create Group');
 $this->views->AddInclude(__DIR__ . '/createGroup.tpl.php', array('form' => $form->GetHTML())); 
 }
 
+/**
+ * View and edit user profile with and id
+ */
+public function UserIntoGroup($idUser) {   
+  $form = new CFormUserIntoGroup($this, $idUser );
+  if($form->Check() === false) {
+    $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+    $this->RedirectToController('UserIntoGroup');
+  }
+  $this->views->SetTitle('Insert into Group');
+  $this->views->AddInclude(__DIR__ . '/UserIntoGroup.tpl.php', array(
+    'profile_form'=>$form->GetHTML(),
+    'goBackAdmin' => $this->CreateUrl('user','profile', null),
+  ));
+}
+
+/**
+ * View and edit user profile with and id
+ */
+public function DeleteUserIntoGroup($idUser) {   
+  $form = new CFormDeleteUserIntoGroup($this, $idUser );
+  if($form->Check() === false) {
+    $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+    $this->RedirectToController('DeleteUserIntoGroup');
+  }
+  $this->views->SetTitle('Delete from Group');
+  $this->views->AddInclude(__DIR__ . '/DeleteUserIntoGroup.tpl.php', array(
+    'profile_form'=>$form->GetHTML(),
+    'goBackAdmin' => $this->CreateUrl('user','profile', null),
+  ));
+}
 
 /** 
 * Perform a creation of a user as callback on a submitted form. 
@@ -255,5 +292,34 @@ if($this->user->GroupCreate($form['acronym']['value'], $form['name']['value'])){
   } 
 }
 
+/** 
+* Perform a creation of a user as callback on a submitted form. 
+* 
+* @param $form CForm the form that was submitted 
+*/ 
+public function DoUserIntoGroupSave($form) { 
+if($this->user->UserIntoGroupCreate($form['userId']['value'],$form['groupId']['value'])){ 
+      $this->AddMessage('success', "Insertion of User to Group successfully created");  
+      $this->RedirectToController('profile'); 
+  } else { 
+    $this->AddMessage('notice', "Failed to create group."); 
+    $this->RedirectToController('UserIntoGroup'); 
+  } 
+}
+
+/** 
+* Perform a creation of a user as callback on a submitted form. 
+* 
+* @param $form CForm the form that was submitted 
+*/ 
+public function DoUserIntoGroupDelete($form) { 
+if($this->user->UserIntoGroupDelete($form['userId']['value'],$form['groupId']['value'])){ 
+      $this->AddMessage('success', "Insertion of User to Group successfully created");  
+      $this->RedirectToController('profile'); 
+  } else { 
+    $this->AddMessage('notice', "Failed to create group."); 
+    $this->RedirectToController('DeleteUserIntoGroup'); 
+  } 
+}
 
 } 

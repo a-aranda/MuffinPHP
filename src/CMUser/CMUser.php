@@ -55,6 +55,7 @@ public static function SQL($key=null) {
     'find group id'           => 'SELECT * FROM Groups WHERE id=?;',
     'delete user id'          => 'DELETE FROM User where id=?;',
     'delete group id'         => 'DELETE FROM Groups where id=?;',
+    'delete user2group'       => 'DELETE FROM User2Groups where idUser=? AND idGroups=?',
     'show users'              => 'SELECT * FROM User;',
     'show groups'              => 'SELECT * FROM Groups;',
     'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
@@ -198,6 +199,17 @@ public function GroupSave($name, $acronym,$id){
   return $this->db->RowCount() === 1;
 }
   
+public function UserIntoGroupCreate($userId, $groupId){
+  $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($userId, $groupId));
+  return $this->db->RowCount() === 1;
+} 
+
+public function UserIntoGroupDelete($userId, $groupId){
+  $this->db->ExecuteQuery(self::SQL('delete user2group'), array($userId, $groupId));
+  return $this->db->RowCount() === 1;
+} 
+
+
 /**
  * Change user password.
  *
