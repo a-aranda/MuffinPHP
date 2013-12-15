@@ -6,8 +6,8 @@ MuffinPHP is a PHP framework that has been realized for the course PHPMVC at BTH
 How To Install MuffinPHP (in 5 minutes)
 =========
 
-1.You can download the latest version of MuffinPHP from github.
-	git clone git://github.com/a-aranda/MuffinPHP.git
+1.You can download the latest version of MuffinPHP from github. (git clone git://github.com/a-aranda/MuffinPHP.git)
+
 2. Upload the contents of the folder MuffinPHP to your server.
 
 3. Update the htaccess file. For bth servers, just by pointing the RewriteBase to the current url would be enough.
