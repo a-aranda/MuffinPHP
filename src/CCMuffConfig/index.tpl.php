@@ -27,6 +27,8 @@ if (file_exists($filename)) {
     return;
 }
 
+// echo $db_form;
+
 echo "<p>The second step is about file permissions. The data folder and the database should been writable:</p>";
 echo "<p>You have to manually give chmod 777 to these two files:</p>";
 echo "<p>$filename<br>$foldername</p>";

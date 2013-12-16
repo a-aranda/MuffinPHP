@@ -1,14 +1,17 @@
 <h1>Welcome to MuffinPHP</h1>
-<p>MuffinPHP is a php framework that makes building websites and web applications easier and faster. 
-	It works with Bootstrap, which can enhance the development even further if needed, and you can check the documentation of the classes in the module section.</p>
-<h2>5-Minute Install of Muffin PHP</h2>
+<h2>Follow this 2-Minute Install guide to set up the framework</h2>
 <p>1. You can download MuffinPHP from github.</p>
 <blockquote>
 <code>git clone git://github.com/a-aranda/MuffinPHP.git</code>
 </blockquote>
 <p>2. Upload the contents of the folder MuffinPHP to your server.</p>
-<p>3. Update the htaccess file. For bth servers, just by pointing the RewriteBase to the current url would be enough.</p>
-<p>4. To set up the database, you will have to make the site/data directory writable. If you are in a terminal, you can write these commands:</p>
+<p>3. <b>Important!</b> Update the htaccess file. For bth servers, just by pointing the RewriteBase to the current url would be enough.</p>
+<p>Follow the automatic installation clicking here:</p>
+<blockquote>
+<a href='<?=create_url('muff-config')?>'>Automatic Installation</a>
+</blockquote>
+
+<!-- <p>4. To set up the database, you will have to make the site/data directory writable. If you are in a terminal, you can write these commands:</p>
 <blockquote>
 	<code>
 		cd MuffinPHP <br>	
@@ -29,4 +32,4 @@
 <blockquote>
 <a href='<?=create_url('module/install')?>'>module/install</a>
 </blockquote>
-<p>Congratulations! You have installed the latest version of MuffinPHP.</p>
+<p>Congratulations! You have installed the latest version of MuffinPHP.</p> -->

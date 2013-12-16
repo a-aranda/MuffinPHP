@@ -49,7 +49,7 @@ public static function SQL($key=null) {
     'create table user2group' => "CREATE TABLE IF NOT EXISTS User2Groups (idUser INTEGER, idGroups INTEGER, created DATETIME default (datetime('now')), PRIMARY KEY(idUser, idGroups));",
     'insert into user'        => 'INSERT INTO User (acronym,name,email,algorithm,salt,password) VALUES (?,?,?,?,?,?);',
     'insert into group'       => 'INSERT INTO Groups (acronym,name) VALUES (?,?);',
-    'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
+    'insert into user2group'  => 'INSERT OR REPLACE INTO User2Groups (idUser,idGroups) VALUES (?,?);',
     'check user password'     => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
     'find user id'            => 'SELECT * FROM User WHERE id=?;',
     'find group id'           => 'SELECT * FROM Groups WHERE id=?;',
