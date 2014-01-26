@@ -47,7 +47,7 @@ if ( is_writable(MUFFINPHP_INSTALL_PATH . '/site/data'))
 	echo "<p class=\"info\">The data folder is writtable.</p>";
 else {
 	echo "<p class=\"warning\">The data folder is not writable, please chmod 777 to the folder.</p>";
-    echo "<p>Once you give the rights to the folder <a href='<?=create_url('muff-config')?>'>click here</a> or refresh the site.</p>";
+        echo "<p>Once you give the rights to the database <a href='".create_url("muff-config")."'>click here</a> or refresh the site.</p>";
 	return;
 }
 
@@ -55,7 +55,7 @@ if ( is_writable(MUFFINPHP_INSTALL_PATH . '/site/data/.ht.sqlite'))
 	echo "<p class=\"info\">Perfect, also the database is writable.</p>";
 else {
 	echo "<p class=\"warning\">The database  is not writable, please chmod 777 the database.</p>";
-    echo "<p>Once you give the rights to the database <a href='<?=create_url('muff-config')?>'>click here</a> or refresh the site.</p>";
+    echo "<p>Once you give the rights to the database <a href='".create_url("muff-config")."'>click here</a> or refresh the site.</p>";
 	return;
 }
 echo "<p class=\"info\">Setting up the database completed!</p>";
