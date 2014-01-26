@@ -6,9 +6,9 @@
 */
 class CDatabase {
 
-   /**
-    * Members
-    */
+ /**
+  * Members
+  */
   private $db = null;
   private $stmt = null;
   private static $numQueries = 0;

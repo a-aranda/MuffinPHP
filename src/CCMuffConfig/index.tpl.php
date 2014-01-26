@@ -27,7 +27,17 @@ if (file_exists($filename)) {
     return;
 }
 
+// echo "<h2>Database Credentials</h2>";
 // echo $db_form;
+
+// if (isset($_POST['username'])){
+// echo "<p class=\"info\"> This is the data that you introduced (check the description, this is not saved):<br>
+//         As username: ".$_POST['username']."<br>
+//         Password is secret <br>
+//         Host introduced: ".$_POST['host']."<br>
+//         Database: ".$_POST['database']."
+// </p>";
+// }
 
 echo "<p>The second step is about file permissions. The data folder and the database should been writable:</p>";
 echo "<p>You have to manually give chmod 777 to these two files:</p>";
@@ -37,6 +47,7 @@ if ( is_writable(MUFFINPHP_INSTALL_PATH . '/site/data'))
 	echo "<p class=\"info\">The data folder is writtable.</p>";
 else {
 	echo "<p class=\"warning\">The data folder is not writable, please chmod 777 to the folder.</p>";
+    echo "<p>Once you give the rights to the folder <a href='<?=create_url('muff-config')?>'>click here</a> or refresh the site.</p>"
 	return;
 }
 
@@ -44,6 +55,7 @@ if ( is_writable(MUFFINPHP_INSTALL_PATH . '/site/data/.ht.sqlite'))
 	echo "<p class=\"info\">Perfect, also the database is writable.</p>";
 else {
 	echo "<p class=\"warning\">The database  is not writable, please chmod 777 the database.</p>";
+    echo "<p>Once you give the rights to the database <a href='<?=create_url('muff-config')?>'>click here</a> or refresh the site.</p>"
 	return;
 }
 echo "<p class=\"info\">Setting up the database completed!</p>";

@@ -6,7 +6,6 @@
 */ 
 class CCMuffConfig extends CObject implements IController { 
 
-
 /** 
 * Constructor 
 */ 
@@ -18,23 +17,24 @@ public function __construct() {
 * Display all content of the type "post". 
 */ 
 public function Index() { 
-	// $form = new CFormDB($this);
+	$form = new CFormDatabase($this);
+	$form->Check();
 	$this->views->SetTitle('Installation');
 	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
-    
-    // 'db_form'=>$form->GetHTML(),
+    	'db_form'=>$form->GetHTML(),
    
   )); 
 } 
 
-
 public function DoDBCreate(){
 
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	// echo "<br><br><br><br><br><br>";
+	// echo "This is the username:".$_POST['username']."<br>";
+	// echo "This is the username:".$_POST['password']."<br>";
+	// echo "This is the host:".$_POST['host']."<br>";
+	// echo "This is the database:".$_POST['database']."<br>";
 
-	$this->RedirectToController();
-
+	//save this information...but where? not in the database :S
 }
 
 

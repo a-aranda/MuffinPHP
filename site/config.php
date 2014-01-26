@@ -88,6 +88,7 @@ $muff->config['controllers'] = array(
 'theme'     => array('enabled' => true,'class' => 'CCTheme'),
 'module'    => array('enabled' => true,'class' => 'CCModules'),
 'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
+'files'        => array('enabled' => true,'class' => 'CCFilesHandler'),
 );
 
 /**
